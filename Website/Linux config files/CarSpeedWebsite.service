@@ -1,0 +1,16 @@
+[Unit]
+Description=CarSpeedWebsite .NET Web App running on Ubuntu
+
+[Service]
+WorkingDirectory=/home/rob/websites/
+ExecStart=/usr/bin/dotnet /home/rob/websites/CarSpeedWebsite/CarSpeedWebsite.dll --urls="http://*:5030"
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+SyslogIdentifier=CarSpeedWebsite
+User=rob
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target

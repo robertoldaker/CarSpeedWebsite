@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSpeedWebsite", "Website\CarSpeedWebsite.csproj", "{3F35A651-2B48-43C9-8F64-9068A40AE39E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventLogger", "EventLogger\EventLogger.csproj", "{6BB31963-ABB7-4A0E-BCB3-FF1DF846D8E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessBase", "DataAccessBase\DataAccessBase.csproj", "{68A710F3-F6E2-4C07-99F0-EDF1F6B4650F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F35A651-2B48-43C9-8F64-9068A40AE39E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F35A651-2B48-43C9-8F64-9068A40AE39E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F35A651-2B48-43C9-8F64-9068A40AE39E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F35A651-2B48-43C9-8F64-9068A40AE39E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BB31963-ABB7-4A0E-BCB3-FF1DF846D8E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BB31963-ABB7-4A0E-BCB3-FF1DF846D8E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BB31963-ABB7-4A0E-BCB3-FF1DF846D8E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BB31963-ABB7-4A0E-BCB3-FF1DF846D8E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A710F3-F6E2-4C07-99F0-EDF1F6B4650F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A710F3-F6E2-4C07-99F0-EDF1F6B4650F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A710F3-F6E2-4C07-99F0-EDF1F6B4650F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A710F3-F6E2-4C07-99F0-EDF1F6B4650F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
