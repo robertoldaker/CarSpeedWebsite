@@ -1,0 +1,11 @@
+<div class="main-header">
+    <span style="float: right">
+        <!-- about -->
+        <button mat-icon-button aria-label="About" style="margin-right: 20px" title="about" (click)="showAboutDialog()">
+            <mat-icon>info_outline</mat-icon>
+        </button>
+    </span>
+    <!-- main menu -->
+    <div class="title">{{title}}</div>
+    <span *ngIf="mode!='Production'" class="mode">! {{mode}} !</span>
+</div>

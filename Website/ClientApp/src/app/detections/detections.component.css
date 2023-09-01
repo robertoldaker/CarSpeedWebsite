@@ -1,0 +1,21 @@
+div.table-container {
+    width: 600px;
+}
+
+div.table-body-container {
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+table.table {
+    height: 100%
+}
+
+.mat-column-speed,
+.mat-column-sd {
+    text-align:right
+}
+
+.mat-column-direction {
+    text-align: center;
+}

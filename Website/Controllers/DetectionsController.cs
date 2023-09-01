@@ -1,3 +1,4 @@
+using CarSpeedWebsite.Data;
 using CarSpeedWebsite.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,4 +24,26 @@ public class DetectionsController : ControllerBase
         m.Load(file);
     }
 
+    /// <summary>
+    /// All
+    /// </summary>
+    [HttpGet]
+    [Route("All")]
+    public IList<Detection> GetAll() {    
+        using( var da = new DataAccess()) {
+            return da.Detections.GetAll();
+        }
+    }
+
+    /// <summary>
+    /// All
+    /// </summary>
+    [HttpGet]
+    [Route("Filtered")]
+    public Paged<Detection> GetFiltered([FromQuery] DetectionFilter filter) {    
+        using( var da = new DataAccess()) {
+            var resp = da.Detections.GetFiltered(filter);
+            return resp;
+        }
+    }
 }

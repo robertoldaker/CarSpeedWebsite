@@ -1,0 +1,20 @@
+div.main-header {
+    height: 50px;
+    padding-left: 1rem;
+    background-color: var(--primary-colour);
+    color: white;
+}
+
+div.title {
+    display: inline-block; 
+    margin-top: 10px;
+    font-weight: bold;
+}
+  
+span.mode {
+      margin-left: 2em;
+      font-size: 20pt;
+      font-weight: bold;
+      color:red;
+}
+  
