@@ -20,3 +20,51 @@ export interface TrackingData {
     speed: number,
     index: number,
 }
+
+
+export interface Paged<T> {
+    total: number
+    data: T[]
+    skip: number,
+    take: number,
+}
+
+export enum DetectionColumn {
+    Timestamp,
+    Speed,
+    Direction,
+    SD
+}
+
+export enum FilterType {
+    Exactly,
+    LessThan,
+    MoreThan,
+    Between
+}
+
+export enum SortDirection {
+    None,
+    Asc,
+    Desc
+}
+
+export interface DetectionFilter {
+    skip: number,
+    take: number,
+
+    timestampFilter: ColumnFilter<string> | undefined
+    speedFilter: ColumnFilter<number> | undefined
+    directionFilter: ColumnFilter<DetectionDirection> | undefined
+    sdFilter: ColumnFilter<number> | undefined
+
+    sort: DetectionColumn
+    sortDirection: SortDirection
+}
+
+export interface ColumnFilter<T> {
+    type: FilterType
+    exactly:T | undefined
+    lessThan:T | undefined
+    moreThan:T | undefined
+}

@@ -1,19 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
-import { AppComponent } from './app.component';
-import { DetectionsComponent } from './detections/detections.component';
-import { ReportsComponent } from './reports/reports.component';
-import { ShowMessageComponent } from './show-message/show-message.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { MainHeaderComponent } from './main-header/main-header.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Angular material design
 import { MatSliderModule } from '@angular/material/slider';
@@ -37,7 +26,24 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table'; 
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
-import {MatPaginatorModule} from '@angular/material/paginator'; 
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker'; 
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// app components
+import { AppComponent } from './app.component';
+import { DetectionsComponent } from './detections/detections.component';
+import { ReportsComponent } from './reports/reports.component';
+import { ShowMessageComponent } from './show-message/show-message.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { HomeComponent } from './home/home.component';
+import { CounterComponent } from './counter/counter.component';
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { MainHeaderComponent } from './main-header/main-header.component';
+import { FilterTableHeaderComponent } from './shared/filter-table-header/filter-table-header.component';
+import { FilterTableNumericDialogComponent } from './shared/filter-table-numeric-dialog/filter-table-numeric-dialog.component';
+import { FilterTableDateDialogComponent } from './shared/filter-table-date-dialog/filter-table-date-dialog.component';
 
 
 @NgModule({
@@ -50,12 +56,16 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MainHeaderComponent,
     DetectionsComponent,
     ReportsComponent,
-    ShowMessageComponent
+    ShowMessageComponent,
+    FilterTableHeaderComponent,
+    FilterTableNumericDialogComponent,
+    FilterTableDateDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -83,9 +93,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

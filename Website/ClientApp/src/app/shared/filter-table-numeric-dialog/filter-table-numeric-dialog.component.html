@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Filter {{data.title}}</h1>
+<div mat-dialog-content>
+    <mat-radio-group aria-label="Select an option" (change)="typeChanged($event)">
+        <table>
+            <tr [class]="{notSelected: !isChecked(valueType.LessThan)}">
+                <td><mat-radio-button [value]="valueType.LessThan" [checked]="isChecked(valueType.LessThan)">Less than</mat-radio-button></td>
+                <td><div><input type="number" [disabled]="!isChecked(valueType.LessThan)" [(ngModel)]="data.columnFilter.lessThan"></div></td>
+                <td></td>
+            </tr>
+            <tr [class]="{notSelected: !isChecked(valueType.Between)}">
+                <td><mat-radio-button  [value]="valueType.Between"  [checked]="isChecked(valueType.Between)">Between</mat-radio-button></td>
+                <td><div ngClass=""><input type="number" [disabled]="!isChecked(valueType.Between)" [(ngModel)]="data.columnFilter.moreThan"> and</div></td>
+                <td><div><input type="number" [disabled]="!isChecked(valueType.Between)" [(ngModel)]="data.columnFilter.lessThan"></div></td>
+            </tr>
+            <tr [class]="{notSelected: !isChecked(valueType.MoreThan)}">
+                <td><mat-radio-button [value]="valueType.MoreThan"  [checked]="isChecked(valueType.MoreThan)">Greater than</mat-radio-button></td>
+                <td><div><input type="number" [disabled]="!isChecked(valueType.MoreThan)" [(ngModel)]="data.columnFilter.moreThan"></div></td>
+                <td></td>
+            </tr>
+        </table>
+    </mat-radio-group>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="filter()" cdkFocusInitial>Filter</button>
+</div>
+  

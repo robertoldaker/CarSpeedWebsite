@@ -30,13 +30,14 @@ public class Detections : DataSet {
         var q = Session.Query<Detection>();
         // time stamp
         if ( filter.TimestampFilter!=null ) {
+            // Dates come back as UTC so convert to local
             if ( filter.TimestampFilter.Type == FilterType.LessThan) {
-                q = q.Where( m=>m.DateTime < filter.TimestampFilter.LessThan);
+                q = q.Where( m=>m.DateTime < filter.TimestampFilter.LessThan.ToLocalTime());
             } else if ( filter.TimestampFilter.Type == FilterType.MoreThan) {
-                q = q.Where( m=>m.DateTime > filter.TimestampFilter.MoreThan);
+                q = q.Where( m=>m.DateTime > filter.TimestampFilter.MoreThan.ToLocalTime());
             } else if ( filter.TimestampFilter.Type == FilterType.Between) {
-                q = q.Where( m=>m.DateTime > filter.TimestampFilter.MoreThan).
-                      Where( m=>m.DateTime < filter.TimestampFilter.LessThan);
+                q = q.Where( m=>m.DateTime > filter.TimestampFilter.MoreThan.ToLocalTime()).
+                      Where( m=>m.DateTime < filter.TimestampFilter.LessThan.ToLocalTime());
             }
         }
         // speed
@@ -67,15 +68,17 @@ public class Detections : DataSet {
                       Where( m=>m.SD < filter.SdFilter.LessThan);
             }
         }
-        //
-        if ( filter.Sort == DetectionColumn.Direction) {
-            q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Direction) : q.OrderByDescending(m=>m.Direction);
-        } else if ( filter.Sort == DetectionColumn.SD) {
-            q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.SD) : q.OrderByDescending(m=>m.SD);
-        } else if ( filter.Sort == DetectionColumn.Speed) {
-            q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Speed) : q.OrderByDescending(m=>m.Speed);
-        } else if ( filter.Sort == DetectionColumn.Timestamp) {
-            q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.DateTime) : q.OrderByDescending(m=>m.DateTime);
+        // sort columns
+        if ( filter.SortDirection!=SortDirection.None) {
+            if ( filter.Sort == DetectionColumn.Direction) {
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Direction) : q.OrderByDescending(m=>m.Direction);
+            } else if ( filter.Sort == DetectionColumn.SD) {
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.SD) : q.OrderByDescending(m=>m.SD);
+            } else if ( filter.Sort == DetectionColumn.Speed) {
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Speed) : q.OrderByDescending(m=>m.Speed);
+            } else if ( filter.Sort == DetectionColumn.Timestamp) {
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.DateTime) : q.OrderByDescending(m=>m.DateTime);
+            }
         }
         //
         // find total
@@ -110,6 +113,7 @@ public enum FilterType {
 }
 
 public enum SortDirection {
+    None,
     Asc,
     Desc
 }

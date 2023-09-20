@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ShowMessageService } from '../show-message/show-message.service';
-import { Detection } from './app.data';
+import { Detection, DetectionFilter, Paged } from './app.data';
+import { DetectionFilterImp } from '../detections/detections.component';
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,16 @@ export class DataService {
         });
     }
 
+    public GetFilteredDetections(data: DetectionFilterImp, onLoad: (resp: Paged<Detection>)=>void) {
+        let params = data.getHttpParams()
+        this.getRequestWithParams<Paged<Detection>>("/Detections/Filtered",params, (resp)=>{
+            resp.data.forEach(d=>{
+                d.dateTime = new Date(d.dateTime)
+            })
+            onLoad(resp)
+        });
+    }
+
     /* shared */
     private getBasicRequest(url: string, onLoad: (resp: any)=>void | undefined) {
         this.http.get(this.baseUrl + url).subscribe(
@@ -36,6 +47,18 @@ export class DataService {
 
     private getRequest<T>(url: string, onLoad: (resp: T)=>void | undefined) {
         this.http.get<T>(this.baseUrl + url).subscribe(
+        { next: (resp) => {
+            if ( onLoad) {
+                onLoad(resp);
+            }
+        }, error: (resp) => { 
+            this.logErrorMessage(resp);
+        }})
+
+    }
+
+    private getRequestWithParams<T>(url: string, params: HttpParams, onLoad: (resp: T)=>void | undefined) {
+        this.http.get<T>(this.baseUrl + url, {params: params}).subscribe(
         { next: (resp) => {
             if ( onLoad) {
                 onLoad(resp);

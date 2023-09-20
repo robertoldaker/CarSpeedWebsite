@@ -1,0 +1,49 @@
+div.headerContainer {
+}
+
+div.header {
+    white-space:nowrap;
+    cursor: pointer;
+}
+
+mat-icon.filter {
+    vertical-align: bottom;
+    margin-left: 4px;
+    color: #999;
+}
+
+mat-icon.filter:hover {    
+    color: #333;
+}
+
+div.filterActive {
+    font-size: 0.7rem;
+    color: #666 !important;
+    background-color:bisque;
+    color: black;
+    border-radius: 50px;
+    visibility: hidden;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    display:inline-block;
+    white-space: nowrap;
+}
+
+div.filterActive.visible {
+    visibility: visible;
+}
+
+div.filterActive > mat-icon {
+    font-size: 0.9rem;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #666;
+}
+
+div.filterActive > mat-icon:hover {
+    color: #333;
+    cursor: pointer;
+}
+
+
+

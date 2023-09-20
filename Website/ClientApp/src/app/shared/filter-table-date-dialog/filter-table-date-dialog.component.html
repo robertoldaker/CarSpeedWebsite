@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Filter {{data.title}}</h1>
+<div mat-dialog-content style="padding-top: 1rem">
+    <mat-radio-group aria-label="Select an option" (change)="typeChanged($event)">
+        <table>
+            <tr [class]="{notSelected: !isChecked(valueType.LessThan)}">
+                <td><mat-radio-button [value]="valueType.LessThan" [checked]="isChecked(valueType.LessThan)">Before</mat-radio-button></td>
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker" [disabled]="!isChecked(valueType.LessThan)" [(ngModel)]="data.columnFilter.lessThan">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>                        
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td></td>
+            </tr>
+            <tr [class]="{notSelected: !isChecked(valueType.Between)}">
+                <td><mat-radio-button  [value]="valueType.Between"  [checked]="isChecked(valueType.Between)">Between</mat-radio-button></td>
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker2" [disabled]="!isChecked(valueType.Between)">
+                          <input matStartDate placeholder="Start date" [(ngModel)]="data.columnFilter.moreThan">
+                          <input matEndDate placeholder="End date" [(ngModel)]="data.columnFilter.lessThan"> 
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker2></mat-date-range-picker>
+                    </mat-form-field>
+                </td>
+                <td></td>
+            </tr>
+            <tr [class]="{notSelected: !isChecked(valueType.MoreThan)}">
+                <td><mat-radio-button [value]="valueType.MoreThan"  [checked]="isChecked(valueType.MoreThan)">After</mat-radio-button></td>
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker3" [disabled]="!isChecked(valueType.MoreThan)" [(ngModel)]="data.columnFilter.moreThan">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </mat-radio-group>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="filter()" cdkFocusInitial>Filter</button>
+</div>

@@ -1,0 +1,24 @@
+<div class="headerContainer">
+    <div class="header">
+        <span (click)="toggleSort()">{{colData.title}}</span>
+        <mat-icon *ngIf="colData.sort==SortState.Desc" style="vertical-align:bottom;">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="colData.sort==SortState.Asc">arrow_drop_up</mat-icon>
+        <ng-container *ngIf="colData.hasFilter">
+            <ng-container *ngIf="colData.filterType==FilterType.Menu">
+                <mat-icon class="filter" [matMenuTriggerFor]="menu">filter_list</mat-icon>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item *ngFor="let mi of colData?.menuOptions" (click)="menuItemClicked(mi)">{{mi.name}}</button>
+                </mat-menu>
+            </ng-container>
+            <ng-container *ngIf="colData.filterType==FilterType.Numeric || colData.filterType==FilterType.Date">
+                <mat-icon class="filter" (click)="openFilterDialog()">filter_list</mat-icon>
+            </ng-container>
+        </ng-container>     
+    </div>
+    <div *ngIf="colData.numActiveColumns>0" [class]="{filterActive: true, visible: colData.isActive}">
+        <ng-container>
+            {{colData.getFilterText()}}
+            <mat-icon (click)="clear()" [inline]="true">clear</mat-icon>    
+        </ng-container>
+    </div>   
+</div>
