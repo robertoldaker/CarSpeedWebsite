@@ -42,7 +42,8 @@ public class TrackingData {
     [Property(Type="BinaryBlob", Lazy=true)]
     public virtual byte[]? Image {get; set;}
 
+    [JsonIgnore()]
     [ManyToOne(Column = "DetectionId", Cascade = "none")]
-    public virtual Detection? Detection {get; set;}
+    public virtual Detection Detection {get; set;}
     
 }

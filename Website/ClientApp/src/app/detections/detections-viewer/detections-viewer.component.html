@@ -1,0 +1,78 @@
+<div class="detectionsContainer">
+    <div class="blockContainer dataContainer main">
+        <div class="mainImage">
+            <div [class]="{imageContainer: true, noImage: !detectionsService.selected}">
+                <img class="mainImage" *ngIf="detectionsService.selected" [src]="mainImageSrc"/>
+            </div>
+        </div>    
+        <div class="metadata">
+            <div class="title">Detection Details</div>
+            <table class="dataTable">
+                <tr>
+                    <td>Date/time</td>
+                    <td>{{detectionsService.selected ? detectionsService.selected.dateTime .toLocaleString() : ''}}</td>
+                </tr>
+                <tr>
+                    <td>Speed</td>
+                    <td>{{detectionsService.selected ? detectionsService.selected.speed.toFixed(1):''}} mph</td>
+                </tr>
+                <tr>
+                    <td>Direction</td>
+                    <td>{{detectionsService.selected ? detectionsService.selected.direction:''}}</td>
+                </tr>
+                <tr>
+                    <td>SD</td>
+                    <td>{{detectionsService.selected ? detectionsService.selected.sd.toFixed(1) : ''}}</td>
+                </tr>
+            </table>    
+        </div>
+    </div>
+    <div class="blockContainer  dataContainer trackingData">
+        <div class="mainImage">
+            <div [class]="{imageContainer: true, noImage: !trackingData}">
+                <img class="mainImage" *ngIf="trackingData" [src]="trackingDataSrc"/>
+            </div>
+            <div class="trackingDataButtons">
+                <button (click)="prevTrackingData()" mat-mini-fab color="primary" aria-label="Prev tracking data">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+                <button (click)="nextTrackingData()" mat-mini-fab color="primary" aria-label="Next tracking data" style="margin-left: 4rem">
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+        </div> 
+        <div class="metadata">
+            <div class="title">Tracking Data</div>
+            <table  class="dataTable">
+                <tr>
+                    <td>Number of items</td>
+                    <td>{{detectionsService.trackingData ? detectionsService.trackingData.length : ''}}</td>
+                </tr>
+                <tr>
+                    <td>Index</td>
+                    <td>{{trackingData ? trackingData.index : ''}}</td>
+                </tr>
+                <tr>
+                    <td>AbsChg</td>
+                    <td>{{trackingData ? trackingData.absChg : ''}}</td>
+                </tr>
+                <tr>
+                    <td>X</td>
+                    <td>{{trackingData ? trackingData.x : ''}}</td>
+                </tr>
+                <tr>
+                    <td>Width</td>
+                    <td>{{trackingData ? trackingData.width : ''}}</td>
+                </tr>
+                <tr>
+                    <td>Time</td>
+                    <td>{{trackingData ? trackingData.time.toFixed(3) : ''}} s</td>
+                </tr>
+                <tr>
+                    <td>Time</td>
+                    <td>{{trackingData ? trackingData.speed.toFixed(2) : ''}} mph</td>
+                </tr>
+            </table>            
+        </div>
+    </div>
+</div>

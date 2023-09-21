@@ -1,0 +1,46 @@
+div.table-container {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+div.table-body-container {
+    height: calc(100vh - 15rem);
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
+table.table {
+    --selected-color: whitesmoke;
+}
+
+div.paginator-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+div.paginator-container > div#title {
+    font-weight: bold;
+}
+
+.mat-column-speed,
+.mat-column-sd {
+    text-align:right
+}
+
+.mat-column-direction {
+    text-align: center;
+}
+
+tr.dataRow:hover {
+    background: var(--selected-color);
+}
+
+tr.dataRow.selected {
+    background: var(--selected-color);
+}
+

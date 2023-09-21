@@ -33,7 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // app components
 import { AppComponent } from './app.component';
-import { DetectionsComponent } from './detections/detections.component';
+import { DetectionsTableComponent } from './detections/detections-table/detections-table.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ShowMessageComponent } from './show-message/show-message.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -44,6 +44,8 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { FilterTableHeaderComponent } from './shared/filter-table-header/filter-table-header.component';
 import { FilterTableNumericDialogComponent } from './shared/filter-table-numeric-dialog/filter-table-numeric-dialog.component';
 import { FilterTableDateDialogComponent } from './shared/filter-table-date-dialog/filter-table-date-dialog.component';
+import { DetectionsComponent } from './detections/detections.component';
+import { DetectionsViewerComponent } from './detections/detections-viewer/detections-viewer.component';
 
 
 @NgModule({
@@ -54,12 +56,14 @@ import { FilterTableDateDialogComponent } from './shared/filter-table-date-dialo
     CounterComponent,
     FetchDataComponent,
     MainHeaderComponent,
-    DetectionsComponent,
+    DetectionsTableComponent,
     ReportsComponent,
     ShowMessageComponent,
     FilterTableHeaderComponent,
     FilterTableNumericDialogComponent,
     FilterTableDateDialogComponent,
+    DetectionsComponent,
+    DetectionsViewerComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

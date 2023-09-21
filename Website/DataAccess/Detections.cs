@@ -26,6 +26,7 @@ public class Detections : DataSet {
     public IList<Detection> GetAll() {
         return Session.Query<Detection>().ToList();
     }
+
     public Paged<Detection> GetFiltered(DetectionFilter filter) {
         var q = Session.Query<Detection>();
         // time stamp
@@ -89,6 +90,11 @@ public class Detections : DataSet {
         return new Paged<Detection>(data,total,filter.Skip,filter.Take);
     }
 
+    public byte[]? GetMainImage(int id) {
+        var d = Session.Query<Detection>().Where(m=>m.Id==id).Select(m=>m.Image).FirstOrDefault();
+        return d;
+    }
+
     public void Add(TrackingData td) {
         Session.Save(td);
     }
@@ -96,6 +102,17 @@ public class Detections : DataSet {
     public void Delete(TrackingData td) {
         Session.Delete(td);
     }
+
+    public IList<TrackingData> GetTrackingData(int detectionId) {
+        var d = Session.Query<TrackingData>().Where(m=>m.Detection.Id==detectionId).OrderBy(m=>m.Index).ToList();
+        return d;
+    }
+
+    public byte[]? GetTrackingImage(int id) {
+        var d = Session.Query<TrackingData>().Where(m=>m.Id==id).Select(m=>m.Image).FirstOrDefault();
+        return d;
+    }
+
 }
 
 public enum DetectionColumn {

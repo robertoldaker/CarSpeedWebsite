@@ -13,7 +13,7 @@ mat-icon.filter {
 }
 
 mat-icon.filter:hover {    
-    color: #333;
+    color: var(--primary-colour);
 }
 
 div.filterActive {

@@ -1,10 +1,6 @@
-import { outputAst } from '@angular/compiler';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
-import { ColumnFilter, FilterType } from 'src/app/data/app.data';
 import { FilterTableNumericDialogComponent } from '../filter-table-numeric-dialog/filter-table-numeric-dialog.component';
-import { ColumnFilterImp } from 'src/app/detections/detections.component';
 import { FilterTableDateDialogComponent } from '../filter-table-date-dialog/filter-table-date-dialog.component';
 
 

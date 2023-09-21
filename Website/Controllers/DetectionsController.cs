@@ -36,7 +36,7 @@ public class DetectionsController : ControllerBase
     }
 
     /// <summary>
-    /// All
+    /// Filtered detections
     /// </summary>
     [HttpGet]
     [Route("Filtered")]
@@ -46,4 +46,51 @@ public class DetectionsController : ControllerBase
             return resp;
         }
     }
+
+    /// <summary>
+    /// Main image
+    /// </summary>
+    [HttpGet]
+    [Route("MainImage")]
+    public IActionResult GetMainImage([FromQuery] int id) {    
+        using( var da = new DataAccess()) {
+            var resp = da.Detections.GetMainImage(id);
+            this.Response.ContentType = "image/jpg";
+            MemoryStream ms = new MemoryStream(resp);
+            ms.Position = 0;
+            FileStreamResult fr = new FileStreamResult(ms, "image/jpg");
+            return fr;
+        }
+    }
+
+    /// <summary>
+    /// Tracking data
+    /// </summary>
+    /// <param name="detectionId">Id of detection tracking data is associated with</param>
+    /// <returns>Array of TrackingData objects</returns>
+    [HttpGet]
+    [Route("TrackingData")]
+    public IList<TrackingData> GetTrackingData([FromQuery] int detectionId) {    
+        using( var da = new DataAccess()) {
+            var resp = da.Detections.GetTrackingData(detectionId);
+            return resp;
+        }
+    }
+
+    /// <summary>
+    /// Main image
+    /// </summary>
+    [HttpGet]
+    [Route("TrackingImage")]
+    public IActionResult GetTrackingImage([FromQuery] int id) {    
+        using( var da = new DataAccess()) {
+            var resp = da.Detections.GetTrackingImage(id);
+            this.Response.ContentType = "image/jpg";
+            MemoryStream ms = new MemoryStream(resp);
+            ms.Position = 0;
+            FileStreamResult fr = new FileStreamResult(ms, "image/jpg");
+            return fr;
+        }
+    }
+
 }

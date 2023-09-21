@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ShowMessageService } from '../show-message/show-message.service';
-import { Detection, DetectionFilter, Paged } from './app.data';
-import { DetectionFilterImp } from '../detections/detections.component';
+import { Detection, Paged, TrackingData } from './app.data';
+import { DetectionFilterImp } from '../detections/detections-table/detections-table.component';
 
 @Injectable({
     providedIn: 'root'
@@ -29,6 +29,14 @@ export class DataService {
             resp.data.forEach(d=>{
                 d.dateTime = new Date(d.dateTime)
             })
+            onLoad(resp)
+        });
+    }
+
+    public GetTrackingData(detectionId: number, onLoad: (resp: TrackingData[])=>void) {
+        let p = new HttpParams();
+        p=p.append("detectionId",detectionId)
+        this.getRequestWithParams<TrackingData[]>("/Detections/TrackingData",p, (resp)=>{            
             onLoad(resp)
         });
     }
