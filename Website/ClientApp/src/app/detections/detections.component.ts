@@ -110,14 +110,9 @@ export class DetectionsComponent {
         }
         // Update number of active columns
         if ( this.filterHeaders) {
+            let numActiveColumns = this.filterHeaders.filter(m=>m.colData.isActive).length;
             this.filterHeaders.forEach(fh=>{
-                if ( fh.colData) {
-                    if ( e.filter==null) {
-                        fh.colData.numActiveColumns--
-                    } else {
-                        fh.colData.numActiveColumns++
-                    }
-                }
+                fh.colData.numActiveColumns=numActiveColumns
             })
         }
     }
