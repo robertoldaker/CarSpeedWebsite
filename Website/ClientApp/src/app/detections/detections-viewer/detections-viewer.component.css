@@ -44,8 +44,9 @@ div.metadata {
 
 div.trackingDataButtons {
     text-align: center;
-    padding: 0.5rem;
+    padding-top: 0.5rem;
     font-size: 3rem;
+    white-space: nowrap;
 }
 
 table.dataTable td:nth-child(1) {

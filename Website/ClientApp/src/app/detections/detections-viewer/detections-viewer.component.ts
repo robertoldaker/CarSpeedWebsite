@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { DetectionsService } from '../detections.service';
-import { TrackingData } from 'src/app/data/app.data';
+import { DetectionDirection, TrackingData } from 'src/app/data/app.data';
 
 @Component({
   selector: 'app-detections-viewer',
@@ -53,4 +53,10 @@ export class DetectionsViewerComponent {
             this.trackingData = this.detectionsService.trackingData[this.index];
         }
     }
+
+    getItemNumber():string {
+        return this.detectionsService.trackingData ? `${this.index+1} of ${this.detectionsService.trackingData.length}` : '-'
+    }
+
+    DetectionDirection = DetectionDirection
 }

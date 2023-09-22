@@ -1,5 +1,6 @@
 using System.Drawing.Text;
 using CarSpeedWebsite.Data;
+using CarSpeedWebsite.Models;
 using HaloSoft.DataAccess;
 using Microsoft.OpenApi.Models;
 
@@ -26,6 +27,8 @@ public static class Program {
             //var filePath = Path.Combine(System.AppContext.BaseDirectory, $"{exeName}.xml");
             //c.IncludeXmlComments(filePath);
         });
+        // SignalR
+        builder.Services.AddSignalR();
 
         var corsPolicyName = "allowAll";
         builder.Services.AddCors(options =>
@@ -56,6 +59,8 @@ public static class Program {
             pattern: "{controller}/{action=Index}/{id?}");
 
         app.MapFallbackToFile("index.html");
+        app.MapHub<NotificationHub>("/NotificationHub");
+
 
         #if DEBUG
                 string host = "odin.local";

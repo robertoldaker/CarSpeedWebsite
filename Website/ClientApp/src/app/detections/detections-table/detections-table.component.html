@@ -31,7 +31,13 @@
                 <th mat-header-cell *matHeaderCellDef>
                     <app-filter-table-header #filterHeader [colData]="getColData(DetectionColumn.Direction)" (sortChanged)="sortChanged($event)" (filterChanged)="filterChanged($event)"></app-filter-table-header>
                 </th>
-                <td mat-cell *matCellDef="let row">{{row.direction}}</td>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        <mat-icon *ngIf="row.direction==DetectionDirection.LEFT_TO_RIGHT" [inline]="true">arrow_forward</mat-icon>
+                        <mat-icon *ngIf="row.direction==DetectionDirection.RIGHT_TO_LEFT" [inline]="true">arrow_back</mat-icon>
+                        <span *ngIf="row.direction==DetectionDirection.UNKNOWN">?</span>    
+                    </div>
+                </td>
             </ng-container>
 
             <!-- Created Column -->

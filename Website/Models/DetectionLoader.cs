@@ -48,6 +48,8 @@ public class DetectionLoader {
             //
             da.CommitChanges();
         }
+        //
+        
     }
 
     private Detection loadDetectionData(DataAccess da, Stream stream, out List<TrackingData> trackingData) {

@@ -5,6 +5,7 @@ import { DetectionColumn, DetectionDirection, Detection, SortDirection, FilterTy
 import { DataService } from 'src/app/data/data-service.service';
 import { ColData, ColDataFilterType, FilterTableHeaderComponent, SortChangeEvent, SortState, FilterChangeEvent, ColDataFilter, ColDataValueType } from 'src/app/shared/filter-table-header/filter-table-header.component';
 import { DetectionsService } from '../detections.service';
+import { SignalRService } from 'src/app/signal-r/signal-r.service';
 
 @Component({
   selector: 'app-detections-table',
@@ -12,7 +13,7 @@ import { DetectionsService } from '../detections.service';
   styleUrls: ['./detections-table.component.css']
 })
 export class DetectionsTableComponent {
-    constructor(private dataService: DataService, private detectionsService: DetectionsService) {
+    constructor(private dataService: DataService, private detectionsService: DetectionsService, private signalRService:SignalRService) {
         this.colDataMap.set(DetectionColumn.Timestamp,new ColData(DetectionColumn.Timestamp,"Timestamp",ColDataFilterType.Date))
         this.colDataMap.set(DetectionColumn.Speed,new ColData(DetectionColumn.Speed,"Speed", ColDataFilterType.Numeric))
         this.colDataMap.set(DetectionColumn.Direction,new ColData(DetectionColumn.Direction,"Direction",ColDataFilterType.Menu,
@@ -24,6 +25,10 @@ export class DetectionsTableComponent {
         this.displayedColumns = Array.from(this.colDataMap.values()).map(m=>m.name)
         this.detections=[]
         this.loadData()
+        this.signalRService.hubConnection.on("NewDetectionLoaded", ()=>{
+            console.log('Load data!')
+            this.loadData()
+        })
     }
     @ViewChildren('filterHeader', { read: FilterTableHeaderComponent }) filterHeaders: QueryList<FilterTableHeaderComponent> | undefined
 
@@ -156,6 +161,7 @@ export class DetectionsTableComponent {
     }
 
     DetectionColumn = DetectionColumn
+    DetectionDirection = DetectionDirection
 }
 
 export class DetectionFilterImp implements DetectionFilter {

@@ -1,6 +1,7 @@
 using CarSpeedWebsite.Data;
 using CarSpeedWebsite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace CarSpeedWebsite.Controllers;
 
@@ -8,9 +9,10 @@ namespace CarSpeedWebsite.Controllers;
 [Route("[controller]")]
 public class DetectionsController : ControllerBase
 {
-    public DetectionsController()
+    private IHubContext<NotificationHub> _hubContext;
+    public DetectionsController(IHubContext<NotificationHub> hubContext)
     {
-
+        _hubContext = hubContext;
     }
 
     /// <summary>
@@ -22,6 +24,7 @@ public class DetectionsController : ControllerBase
     public void UploadDetectionZip(IFormFile file) {
         var m = new DetectionLoader();
         m.Load(file);
+        _hubContext.Clients.All.SendAsync("NewDetectionLoaded");
     }
 
     /// <summary>
