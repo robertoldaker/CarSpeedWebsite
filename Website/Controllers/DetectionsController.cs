@@ -88,11 +88,15 @@ public class DetectionsController : ControllerBase
     public IActionResult GetTrackingImage([FromQuery] int id) {    
         using( var da = new DataAccess()) {
             var resp = da.Detections.GetTrackingImage(id);
-            this.Response.ContentType = "image/jpg";
-            MemoryStream ms = new MemoryStream(resp);
-            ms.Position = 0;
-            FileStreamResult fr = new FileStreamResult(ms, "image/jpg");
-            return fr;
+            if ( resp!=null) {
+                this.Response.ContentType = "image/jpg";
+                MemoryStream ms = new MemoryStream(resp);
+                ms.Position = 0;
+                FileStreamResult fr = new FileStreamResult(ms, "image/jpg");
+                return fr;
+            } else {
+                return this.Ok();
+            }
         }
     }
 

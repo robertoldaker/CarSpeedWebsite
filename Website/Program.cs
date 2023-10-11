@@ -27,8 +27,13 @@ public static class Program {
             //var filePath = Path.Combine(System.AppContext.BaseDirectory, $"{exeName}.xml");
             //c.IncludeXmlComments(filePath);
         });
+
         // SignalR
-        builder.Services.AddSignalR();
+        builder.Services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+                o.MaximumReceiveMessageSize = 100240;
+            }).AddMessagePackProtocol();
 
         var corsPolicyName = "allowAll";
         builder.Services.AddCors(options =>
