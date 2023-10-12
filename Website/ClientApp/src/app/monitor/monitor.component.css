@@ -1,0 +1,44 @@
+div.dataContainer {
+    margin-top: 1rem;
+    max-width: 800px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto 250px;
+}
+
+div.trackingData {
+    margin-top: 1rem;
+}
+
+div.title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #2C387D;
+}
+
+div.mainImage  img.mainImage {
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+div.imageContainer {
+    border-radius: 0.5rem;
+}
+
+div.imageContainer.noImage {
+    aspect-ratio: 1.7;
+    border: 1px dotted gray;
+}
+
+div.metadata {
+    padding-left: 1rem;
+}
+
+table.dataTable td:nth-child(1) {
+    padding-right: 0.5rem;
+}
+
+table.dataTable td:nth-child(2) {
+    padding-right: 0.5rem;
+    font-weight: bold;
+}

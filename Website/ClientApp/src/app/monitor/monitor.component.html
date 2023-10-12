@@ -1,0 +1,28 @@
+<div class="blockContainer dataContainer">
+    <div class="mainImage">
+        <div [class]="{imageContainer: true, noImage: !imageAvailable}">
+            <img class="mainImage" [src]="imageSrc"/>
+        </div>
+    </div>    
+    <div class="metadata">
+        <div class="title">Monitor state</div>
+        <table class="dataTable">
+            <tr>
+                <td>Tracking state</td>
+                <td>{{trackingState}}</td>
+            </tr>
+            <tr>
+                <td>Detection enabled</td>
+                <td>{{detectionEnabled}}</td>
+            </tr>
+            <tr>
+                <td>Frame rate</td>
+                <td>{{frameRate}}</td>
+            </tr>
+            <tr>
+                <td>Avg contours</td>
+                <td>{{avgContours}}</td>
+            </tr>
+        </table>    
+    </div>
+</div>

@@ -47,7 +47,7 @@ import { FilterTableDateDialogComponent } from './shared/filter-table-date-dialo
 import { DetectionsComponent } from './detections/detections.component';
 import { DetectionsViewerComponent } from './detections/detections-viewer/detections-viewer.component';
 import { SignalRComponent } from './signal-r/signal-r.component';
-import { DetectorComponent } from './detector/detector/detector.component';
+import { MonitorComponent } from './monitor/monitor.component';
 
 
 @NgModule({
@@ -67,7 +67,7 @@ import { DetectorComponent } from './detector/detector/detector.component';
     DetectionsComponent,
     DetectionsViewerComponent,
     SignalRComponent,
-    DetectorComponent,
+    MonitorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

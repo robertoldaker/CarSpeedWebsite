@@ -9,16 +9,18 @@ namespace CarSpeedWebsite.Models {
             Console.WriteLine($"Connected!!!! {this.Context.ConnectionId}");
             return base.OnConnectedAsync();
         }
-
         public override Task OnDisconnectedAsync(Exception? exception)
         {
             Console.WriteLine("Disconnected!");
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task PreviewState(DetectorState state) {
+        public async Task PreviewState(CarSpeedMonitorState state) {
             var task =  new Task(()=>{
-                DetectorPreview.Instance.State = state;
+                if ( MonitorPreview.Instance.SetState(state)) {
+                    // Send out message
+                    this.Clients.All.SendAsync("MonitorStateUpdated",MonitorPreview.Instance.State);
+                }
             });
             task.Start();
             await task;

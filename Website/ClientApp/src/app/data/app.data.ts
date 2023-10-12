@@ -68,3 +68,10 @@ export interface ColumnFilter<T> {
     lessThan:T | undefined
     moreThan:T | undefined
 }
+
+export interface MonitorState {
+    state: string
+    frameRate: number
+    detectionEnabled: boolean
+    avgContours: number
+}
