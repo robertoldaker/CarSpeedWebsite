@@ -27,5 +27,13 @@ namespace CarSpeedWebsite.Models {
 
         }
 
+        public async Task LogMessage(string message) {
+            var task =  new Task(()=>{
+                // Send out message
+                this.Clients.All.SendAsync("LogMessage",message);
+            });
+            task.Start();
+            await task;
+        }
     }
 }

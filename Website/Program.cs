@@ -68,7 +68,8 @@ public static class Program {
 
 
         #if DEBUG
-                string host = "odin.local";
+                //string host = "odin.local";
+                string host = "localhost";
         #else
                 string host = "localhost";
         #endif
