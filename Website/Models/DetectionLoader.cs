@@ -11,7 +11,7 @@ public class DetectionLoader {
     }
 
     public void Load(IFormFile file) {
-        var regEx = new Regex(@"(\d).jpg$");
+        var regEx = new Regex(@"(\d+).jpg$");
         using( var da = new DataAccess() ) {
             using( var stream = file.OpenReadStream()) {
                 ZipArchive archive = new ZipArchive(stream);
