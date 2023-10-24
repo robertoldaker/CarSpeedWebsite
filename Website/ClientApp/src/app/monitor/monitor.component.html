@@ -1,12 +1,13 @@
 <div class="blockContainer outer">
-    <div class="title">Monitor state</div>
-    <div class="stateContainer">
+    <div class="title">Camera</div>
+    <div class="stateContainer">        
         <div class="mainImage">
             <div [class]="{imageContainer: true, noImage: !imageAvailable}">
                 <img class="mainImage" [src]="imageSrc"/>
             </div>
         </div>    
         <div class="metadata">
+            <div class="title">State</div>
             <table class="dataTable">
                 <tr>
                     <td>Tracking state</td>
@@ -24,7 +25,13 @@
                     <td>Avg contours</td>
                     <td>{{avgContours}}</td>
                 </tr>
-            </table>    
+                <tr>
+                    <td>Light level</td>
+                    <td>{{lightLevel}}</td>
+                </tr>
+            </table>
+            <button mat-raised-button color="primary" (click)="toggleMonitoring()">{{monitoringText}}</button>
+            <button mat-raised-button color="primary" (click)="toggleDetection()">{{detectionText}}</button>
         </div>    
     </div>
     <div class="logsContainer">

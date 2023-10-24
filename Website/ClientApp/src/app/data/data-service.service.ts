@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ShowMessageService } from '../show-message/show-message.service';
-import { Detection, Paged, TrackingData } from './app.data';
+import { Detection, MonitorConfig, Paged, TrackingData } from './app.data';
 import { DetectionFilterImp } from '../detections/detections-table/detections-table.component';
 
 @Injectable({
@@ -39,6 +39,32 @@ export class DataService {
         this.getRequestWithParams<TrackingData[]>("/Detections/TrackingData",p, (resp)=>{            
             onLoad(resp)
         });
+    }
+
+    public StartMonitor() {
+        this.getBasicRequest("/Monitor/StartMonitor",()=>{});
+    }
+
+    public StopMonitor() {
+        this.getBasicRequest("/Monitor/StopMonitor",()=>{});
+    }
+
+    public ToggleDetection() {
+        this.getBasicRequest("/Monitor/ToggleDetection",()=>{});
+    }
+
+    public ResetTracking() {
+        this.getBasicRequest("/Monitor/ResetTracking",()=>{});
+    }
+
+    public GetMonitorConfig(onLoad: (resp: MonitorConfig)=>void) {
+        this.getRequest<MonitorConfig>("/Monitor/Config",(data)=> {
+            onLoad(data)
+        });
+    }
+
+    public PostMonitorConfig(config: MonitorConfig, onOK: (resp:string )=>void) {
+        this.postRequestWithMessage<MonitorConfig>("Saving","/Monitor/EditConfig",config,onOK)
     }
 
     /* shared */

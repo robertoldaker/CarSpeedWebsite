@@ -1,0 +1,92 @@
+<div class="blockContainer outer">
+    <div class="title">Camera</div>
+    <div class="configContainer">        
+        <div class="mainImage">
+            <div [class]="{imageContainer: true, noImage: !imageAvailable}" >
+                <img class="mainImage" [src]="imageSrc" />
+                <div class="monitorArea" *ngIf="canEdit" [style]="{left: monitorAreaLeft, top: monitorAreaTop, width: monitorAreaWidth, height: monitorAreaHeight}"></div>
+                <div class="mouseEvents" *ngIf="canEdit" (mousedown)="mouseDown($event)" (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" (mouseleave)="mouseLeave($event)"></div>
+            </div>
+        </div>    
+        <div class="metadata">
+            <table class="dataTable">
+                <tr>
+                    <td>Left to right distance (m)</td>
+                    <td>
+                        <input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="l2rDistance"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="error">{{getError('l2rDistance')}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Right to left distance (m)</td>
+                    <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="r2lDistance"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="error">{{getError('r2lDistance')}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Min. speed image (mph)</td>
+                    <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="minSpeedImage"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="error">{{getError('minSpeedImage')}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Min. speed save (mph)</td>
+                    <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="minSpeedSave"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="error">{{getError('minSpeedSave')}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Max. speed save (mph)</td>
+                    <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="maxSpeedSave"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="error">{{getError('maxSpeedSave')}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Camera field of view (deg)</td>
+                    <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="fieldOfView"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="error">{{getError('fieldOfView')}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Hor. flip</td>
+                    <td><input [disabled]="!canEdit" type="checkbox" [(ngModel)]="horFlip"/></td>
+                </tr>
+                <tr>
+                    <td>Ver. flip</td>
+                    <td><input [disabled]="!canEdit" type="checkbox" [(ngModel)]="verFlip"/></td>
+                </tr>
+            </table>
+            <div style="margin-top: 0.5rem">
+                <button *ngIf="!canEdit" mat-raised-button color="primary" color="primary" (click)="edit()" style="margin-right: 0.5rem">Edit</button>
+                <span *ngIf="canEdit">
+                    <button [disabled]="!canEdit" mat-raised-button color="primary" (click)="save()" style="margin-right: 0.5rem">Save config</button>
+                    <button [disabled]="!canEdit" mat-button color="primary" (click)="cancel()">Cancel</button>    
+                </span>
+            </div>
+            <div style="margin-top: 1rem">
+                <span>pos=({{mPos.x}}, {{mPos.y}})</span>
+            </div>
+        </div>    
+    </div>
+    <div *ngIf="canEdit" class="monitorAreaMessage">Use mouse to select monitor area</div>
+</div>
+

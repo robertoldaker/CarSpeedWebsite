@@ -74,4 +74,25 @@ export interface MonitorState {
     frameRate: number
     detectionEnabled: boolean
     avgContours: number
+    lightLevel: number,
+    cpu: number
+}
+
+export interface MonitorConfig {
+    l2r_distance: number,
+    r2l_distance: number,
+    min_speed_image: number,
+    min_speed_save: number,
+    max_speed_save: number,
+    field_of_view: number,
+    h_flip: boolean,
+    v_flip: boolean,
+    monitor_area: MonitorConfigArea
+}
+
+export interface MonitorConfigArea {
+    upper_left_x: number,
+    upper_left_y:number,
+    lower_right_x:number,
+    lower_right_y:number
 }

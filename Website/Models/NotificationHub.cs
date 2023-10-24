@@ -35,5 +35,17 @@ namespace CarSpeedWebsite.Models {
             task.Start();
             await task;
         }
+
+        public async Task MonitorConfig(MonitorConfig config) {
+            var task =  new Task(()=>{
+                // Send out message
+                if ( MonitorPreview.Instance.SetConfig(config)) {
+                    // Send out message
+                    this.Clients.All.SendAsync("MonitorConfigUpdated");
+                }                
+            });
+            task.Start();
+            await task;
+        }
     }
 }

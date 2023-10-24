@@ -48,4 +48,76 @@ public class MonitorController : ControllerBase
             return await MonitorPreview.Instance.GetNextImageAsync();
         });    
     }
+
+    /// <summary>
+    /// Start monitor
+    /// </summary>
+    [HttpGet]
+    [Route("StartMonitor")]
+    public IActionResult StartMonitor() {
+
+        _hubContext.Clients.All.SendAsync("StartMonitor").Wait();
+        return this.Ok();
+    }
+
+    /// <summary>
+    /// Stops monitor
+    /// </summary>
+    [HttpGet]
+    [Route("StopMonitor")]
+    public IActionResult StopMonitor() {
+
+        _hubContext.Clients.All.SendAsync("StopMonitor").Wait();
+        return this.Ok();
+    }
+
+    /// <summary>
+    /// Toggle detection
+    /// </summary>
+    [HttpGet]
+    [Route("ToggleDetection")]
+    public IActionResult ToggleDetection() {
+
+        _hubContext.Clients.All.SendAsync("ToggleDetection").Wait();
+        return this.Ok();        
+    }
+
+    /// <summary>
+    /// Reset tracking
+    /// </summary>
+    [HttpGet]
+    [Route("ResetTracking")]
+    public IActionResult ResetTracking() {
+
+        _hubContext.Clients.All.SendAsync("ResetTracking").Wait();
+        return this.Ok();
+    }
+
+    /// <summary>
+    /// Get Monitor config
+    /// </summary>
+    [HttpGet]
+    [Route("Config")]
+    public MonitorConfig Config() {
+        return MonitorPreview.Instance.Config;
+    }
+
+    /// <summary>
+    /// Post a new edit config
+    /// </summary>
+    [HttpPost]
+    [Route("EditConfig")]
+    public void EditConfig(MonitorConfig config) {
+        MonitorPreview.Instance.EditConfig = config;
+         _hubContext.Clients.All.SendAsync("MonitorConfigEdited").Wait();
+    }
+
+    /// <summary>
+    /// Get current edit config
+    /// </summary>
+    [HttpGet]
+    [Route("EditConfig")]
+    public MonitorConfig EditConfig() {
+        return MonitorPreview.Instance.EditConfig;
+    }
 }

@@ -1,6 +1,7 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { SignalRService } from '../signal-r/signal-r.service';
 import { MonitorState } from '../data/app.data';
+import { DataService } from '../data/data-service.service';
 
 @Component({
   selector: 'app-monitor',
@@ -12,7 +13,7 @@ export class MonitorComponent {
     readonly MAX_LOG_LENGTH=60000
     readonly LOG_BUFFER=10000
 
-    constructor(signalRService: SignalRService,@Inject('DATA_URL') private baseUrl: string) {
+    constructor(signalRService: SignalRService,@Inject('DATA_URL') private baseUrl: string,private dataService: DataService) {
         signalRService.hubConnection.on("MonitorStateUpdated", (data)=>{
             this.monitorState = data
         })
@@ -52,10 +53,49 @@ export class MonitorComponent {
     get avgContours(): string {
         return this.monitorState ? this.monitorState.avgContours.toFixed(0) : '-'
     }
+
+    get lightLevel(): string {
+        return this.monitorState ? this.monitorState.lightLevel.toFixed(0) : '-'
+    }
+
+    get cpu(): string {
+        return this.monitorState ? this.monitorState.cpu.toFixed(0) : '-'
+    }
+
     get imageAvailable(): boolean {
         return this.monitorState!=null;
     }
+
     get imageSrc(): string {
         return this.monitorState ? `${this.baseUrl}/Monitor/PreviewVideo` : ''
+    }
+
+    get monitoringText():string {
+        return this.isRunning() ? "Stop monitoring" : "Start monitoring"
+    }
+    get detectionText():string {
+        return this.isDetecting() ? "Stop detection" : "Start detection"
+    }
+    isRunning() {
+        return this.monitorState && this.monitorState.state!=null && this.monitorState.state!="" && this.monitorState.state!="IDLE"
+    }
+    isDetecting() {
+        return this.monitorState && this.monitorState.detectionEnabled
+    }
+    toggleMonitoring() {
+        console.log('toggle monitoring')
+        if ( this.isRunning()) {
+            this.dataService.StopMonitor();
+        } else {
+            this.dataService.StartMonitor();
+        }
+    }
+    toggleDetection() {
+        console.log('toggle detection')
+        this.dataService.ToggleDetection();
+    }
+    resetTracking() {
+        console.log('reset tracking')
+        this.dataService.ResetTracking();
     }
 }

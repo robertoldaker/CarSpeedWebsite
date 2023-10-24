@@ -8,7 +8,9 @@ public class CarSpeedMonitorState {
     public float frameRate {get; set;}
     public bool detectionEnabled {get; set;}
     public int avgContours {get; set;}
-    public byte[] jpg {get; set;}
+    public int lightLevel {get; set;}
+    public float cpu {get; set;}
+    public byte[] jpg {get; set;}    
 }
 
 public class MonitorState {
@@ -16,6 +18,8 @@ public class MonitorState {
     public float frameRate {get; set;}
     public bool detectionEnabled {get; set;}
     public int avgContours {get; set;}
+    public int lightLevel {get; set;}
+    public float cpu {get; set;}
 
     public bool Update(CarSpeedMonitorState monitorState) {
         bool updated = false;
@@ -35,8 +39,47 @@ public class MonitorState {
             avgContours = monitorState.avgContours;
             updated = true;
         }
+        if ( lightLevel!=monitorState.lightLevel ) {
+            lightLevel = monitorState.lightLevel;
+            updated = true;
+        }
+        if ( cpu!=monitorState.cpu ) {
+            cpu = monitorState.cpu;
+            updated = true;
+        }
         return updated;
     }
+}
+
+public class MonitorConfig {
+    public string class_name {
+        get {
+            return "CarSpeedConfig";
+        }
+    }
+    public float l2r_distance {get; set;}
+    public float r2l_distance {get; set;}
+    public int min_speed_image {get; set;}
+    public int min_speed_save {get; set;}
+    public int max_speed_save {get; set;}
+    public float field_of_view {get; set;}
+    public bool h_flip {get; set;}
+    public bool v_flip {get; set;}
+
+    //
+    public MonitorConfigArea? monitor_area {get; set;}
+}
+
+public class MonitorConfigArea {
+    public string class_name {
+        get {
+            return "MonitorArea";
+        }
+    }
+    public int upper_left_x {get; set;}
+    public int upper_left_y {get; set;}
+    public int lower_right_x {get; set;}
+    public int lower_right_y {get; set;}
 }
 
 public class MonitorPreview {
@@ -58,6 +101,9 @@ public class MonitorPreview {
     private MonitorState _state;
     private byte[] _jpgImage;
     private object _stateLock = new object();
+
+    private MonitorConfig _config;
+    private MonitorConfig _editConfig;
 
     private AutoResetEvent _imageAvailable = new AutoResetEvent(false);
 
@@ -96,5 +142,24 @@ public class MonitorPreview {
         await Task.Run( ()=> { _imageAvailable.WaitOne();});
         return _jpgImage;
 
+    }
+
+    public bool SetConfig(MonitorConfig config) {
+        _config = config;
+        return true;
+    }
+
+    public MonitorConfig Config {
+        get {
+            return _config;
+        }
+    }
+    public MonitorConfig EditConfig {
+        get {
+            return _editConfig;
+        }
+        set {
+            _editConfig = value;
+        }
     }
 }
