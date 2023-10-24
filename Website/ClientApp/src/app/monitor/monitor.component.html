@@ -30,8 +30,20 @@
                     <td>{{lightLevel}}</td>
                 </tr>
             </table>
-            <button mat-raised-button color="primary" (click)="toggleMonitoring()">{{monitoringText}}</button>
-            <button mat-raised-button color="primary" (click)="toggleDetection()">{{detectionText}}</button>
+            <div style="margin-top: 1rem">
+                <button [disabled]="isRunning()" (click)="startMonitoring()" mat-mini-fab color="primary" aria-label="Prev tracking data">
+                    <mat-icon>play_arrow</mat-icon>
+                </button>
+                <button style="margin-left: 0.5rem" [disabled]="!isRunning()" (click)="stopMonitoring()" mat-mini-fab color="primary" aria-label="Prev tracking data">
+                    <mat-icon>pause</mat-icon>
+                </button>                
+            </div>
+            <div style="margin-top: 0.5rem">
+                <label>
+                    Enable detection
+                    <input type="checkbox" [ngModel]="isDetecting" (change)="toggleDetection()"/>
+                </label>
+            </div>
         </div>    
     </div>
     <div class="logsContainer">

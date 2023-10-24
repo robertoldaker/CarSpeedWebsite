@@ -58,9 +58,7 @@ export class DataService {
     }
 
     public GetMonitorConfig(onLoad: (resp: MonitorConfig)=>void) {
-        this.getRequest<MonitorConfig>("/Monitor/Config",(data)=> {
-            onLoad(data)
-        });
+        this.getRequest<MonitorConfig>("/Monitor/Config",onLoad);
     }
 
     public PostMonitorConfig(config: MonitorConfig, onOK: (resp:string )=>void) {

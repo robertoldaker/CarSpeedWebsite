@@ -82,13 +82,11 @@ export class MonitorComponent {
     isDetecting() {
         return this.monitorState && this.monitorState.detectionEnabled
     }
-    toggleMonitoring() {
-        console.log('toggle monitoring')
-        if ( this.isRunning()) {
-            this.dataService.StopMonitor();
-        } else {
-            this.dataService.StartMonitor();
-        }
+    startMonitoring() {
+        this.dataService.StartMonitor();
+    }
+    stopMonitoring() {
+        this.dataService.StopMonitor();
     }
     toggleDetection() {
         console.log('toggle detection')

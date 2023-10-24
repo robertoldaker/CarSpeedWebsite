@@ -31,15 +31,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Min. speed image (mph)</td>
-                    <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="minSpeedImage"/></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="error">{{getError('minSpeedImage')}}</div>
-                    </td>
-                </tr>
-                <tr>
                     <td>Min. speed save (mph)</td>
                     <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="minSpeedSave"/></td>
                 </tr>
@@ -68,11 +59,11 @@
                 </tr>
                 <tr>
                     <td>Hor. flip</td>
-                    <td><input [disabled]="!canEdit" type="checkbox" [(ngModel)]="horFlip"/></td>
+                    <td><input [disabled]="!canEdit" type="checkbox" [(ngModel)]="horFlip" (change)="hFlipChanged()"/></td>
                 </tr>
                 <tr>
                     <td>Ver. flip</td>
-                    <td><input [disabled]="!canEdit" type="checkbox" [(ngModel)]="verFlip"/></td>
+                    <td><input [disabled]="!canEdit" type="checkbox" [(ngModel)]="verFlip"  (change)="vFlipChanged()"/></td>
                 </tr>
             </table>
             <div style="margin-top: 0.5rem">

@@ -5,7 +5,7 @@ using HaloSoft.DataAccess;
 using Microsoft.OpenApi.Models;
 
 public static class Program {
-    private const int SCHEMA_VERSION=2;
+    private const int SCHEMA_VERSION=4;
     private const int SCRIPT_VERSION=1;
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
@@ -81,6 +81,9 @@ public static class Program {
             Password = "1234567890",
             DbProvider = DbProvider.PostgreSQL
         }, DataAccess.SchemaUpdated, DataAccess.StartupScript);
+
+        // This ensures we have a config in the db
+        CarSpeedWebsite.Data.Monitor.Initialise();
 
         app.Run();
 

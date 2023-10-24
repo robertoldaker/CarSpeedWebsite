@@ -13,8 +13,8 @@ export class ConfigComponent {
         signalRService.hubConnection.on("MonitorStateUpdated", (data)=>{
             this.monitorState = data
         })
-        signalRService.hubConnection.on("MonitorConfigUpdated", ()=>{
-            // Don't overwite if currently editing
+        signalRService.hubConnection.on("MonitorConfigEdited", ()=>{
+            // Don't overwrite if currently editing
             if ( !this.canEdit ) {
                 this.loadMonitorConfig();
             }
@@ -27,12 +27,15 @@ export class ConfigComponent {
             this.config=data
             this.l2rDistance = data.l2r_distance.toFixed(1)
             this.r2lDistance = data.r2l_distance.toFixed(1)
-            this.minSpeedImage = data.min_speed_image.toFixed(0)
             this.minSpeedSave = data.min_speed_save.toFixed(0)
             this.maxSpeedSave = data.max_speed_save.toFixed(0)
             this.fieldOfView = data.field_of_view.toFixed(0)
             this.horFlip = data.h_flip
             this.verFlip = data.v_flip
+            this.startPos.x = data.monitor_area.upper_left_x
+            this.startPos.y = data.monitor_area.upper_left_y
+            this.size.width = data.monitor_area.lower_right_x-data.monitor_area.upper_left_x
+            this.size.height = data.monitor_area.lower_right_y-data.monitor_area.upper_left_y
         })
     }
     monitorState: MonitorState | null = null
@@ -49,7 +52,6 @@ export class ConfigComponent {
     canEdit:boolean=false
     l2rDistance:string = '-'
     r2lDistance:string='-'
-    minSpeedImage:string='-'
     minSpeedSave:string='-'
     maxSpeedSave:string='-'
     fieldOfView:string='-'
@@ -90,10 +92,6 @@ export class ConfigComponent {
         res = this.parseFloat("r2lDistance",this.r2lDistance)
         if ( res.ok ) {
             this.config.r2l_distance = res.v
-        }
-        res = this.parseInt("minSpeedImage",this.minSpeedImage)
-        if ( res.ok ) {
-            this.config.min_speed_image = res.v
         }
         res = this.parseInt("minSpeedSave",this.minSpeedSave)
         if ( res.ok ) {
@@ -220,5 +218,13 @@ export class ConfigComponent {
     get monitorAreaHeight():string {
         let height = Math.abs(this.size.height)
         return `${height}px`
+    }
+
+    hFlipChanged() {
+        this.signalRService.hubConnection.send("HorFlip",this.horFlip)
+    }
+
+    vFlipChanged() {
+        this.signalRService.hubConnection.send("VerFlip",this.verFlip)
     }
 }

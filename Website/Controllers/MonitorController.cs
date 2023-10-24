@@ -99,7 +99,10 @@ public class MonitorController : ControllerBase
     [HttpGet]
     [Route("Config")]
     public MonitorConfig Config() {
-        return MonitorPreview.Instance.Config;
+        using ( var da = new DataAccess()) {
+            var config = da.Monitor.GetMonitorConfig();
+            return config;
+        }
     }
 
     /// <summary>
@@ -108,16 +111,12 @@ public class MonitorController : ControllerBase
     [HttpPost]
     [Route("EditConfig")]
     public void EditConfig(MonitorConfig config) {
-        MonitorPreview.Instance.EditConfig = config;
+        using ( var da = new DataAccess()) {
+            da.Monitor.Add(config);
+            da.CommitChanges();
+        }
+        // send message so any other clients can load new config
          _hubContext.Clients.All.SendAsync("MonitorConfigEdited").Wait();
     }
 
-    /// <summary>
-    /// Get current edit config
-    /// </summary>
-    [HttpGet]
-    [Route("EditConfig")]
-    public MonitorConfig EditConfig() {
-        return MonitorPreview.Instance.EditConfig;
-    }
 }

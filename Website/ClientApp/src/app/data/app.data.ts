@@ -81,7 +81,6 @@ export interface MonitorState {
 export interface MonitorConfig {
     l2r_distance: number,
     r2l_distance: number,
-    min_speed_image: number,
     min_speed_save: number,
     max_speed_save: number,
     field_of_view: number,

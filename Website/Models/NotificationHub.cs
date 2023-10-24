@@ -36,13 +36,19 @@ namespace CarSpeedWebsite.Models {
             await task;
         }
 
-        public async Task MonitorConfig(MonitorConfig config) {
+        public async Task HorFlip(bool flip) {
             var task =  new Task(()=>{
                 // Send out message
-                if ( MonitorPreview.Instance.SetConfig(config)) {
-                    // Send out message
-                    this.Clients.All.SendAsync("MonitorConfigUpdated");
-                }                
+                this.Clients.All.SendAsync("HorFlip",flip);
+            });
+            task.Start();
+            await task;
+        }
+
+        public async Task VerFlip(bool flip) {
+            var task =  new Task(()=>{
+                // Send out message
+                this.Clients.All.SendAsync("VerFlip",flip);
             });
             task.Start();
             await task;
