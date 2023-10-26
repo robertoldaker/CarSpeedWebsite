@@ -1,0 +1,5 @@
+div.homeContainer {
+    position: relative;
+    padding: 1rem; 
+    overflow: hidden;  
+}

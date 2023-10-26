@@ -23,8 +23,12 @@ public class DetectionsController : ControllerBase
     [Route("Upload")]
     public void UploadDetectionZip(IFormFile file) {
         var m = new DetectionLoader();
-        m.Load(file);
-        _hubContext.Clients.All.SendAsync("NewDetectionLoaded");
+        m.Load(file, out string? monitorName);
+        // Send out signal r message
+        if ( monitorName!=null ) {
+            var monitors = ConnectionManager.Instance.GetAllMonitorIds();
+            _hubContext.Clients.AllExcept(monitors).SendAsync("NewDetectionLoaded",new {monitorName=monitorName});
+        }
     }
 
     /// <summary>
@@ -32,9 +36,9 @@ public class DetectionsController : ControllerBase
     /// </summary>
     [HttpGet]
     [Route("All")]
-    public IList<Detection> GetAll() {    
+    public IList<Detection> GetAll(string monitorName) {    
         using( var da = new DataAccess()) {
-            return da.Detections.GetAll();
+            return da.Detections.GetAll(monitorName);
         }
     }
 

@@ -36,6 +36,10 @@ div.paginator-container > div#title {
     text-align: center;
 }
 
+tr.dataRow {
+    cursor: pointer;
+}
+
 tr.dataRow:hover {
     background: var(--selected-color);
 }

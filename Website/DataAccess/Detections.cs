@@ -1,5 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 using HaloSoft.DataAccess;
+using NHibernate.Criterion;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace CarSpeedWebsite.Data;
@@ -23,12 +24,15 @@ public class Detections : DataSet {
         Session.Delete(detection);
     }
 
-    public IList<Detection> GetAll() {
-        return Session.Query<Detection>().ToList();
+    public IList<Detection> GetAll(string monitorName) {
+        var configIds = Session.QueryOver<MonitorConfig>().Where(m=>m.name==monitorName).Select(m=>m.id).List<int>().ToArray();
+        return Session.QueryOver<Detection>().Where(m=>m.MonitorConfig.id.IsIn(configIds)).List();
     }
 
     public Paged<Detection> GetFiltered(DetectionFilter filter) {
-        var q = Session.Query<Detection>();
+        var configIds = Session.QueryOver<MonitorConfig>().Where(m=>m.name==filter.monitorName).Select(m=>m.id).List<int>().ToArray();
+
+        var q = Session.QueryOver<Detection>().Where(m=>m.MonitorConfig.id.IsIn(configIds));
         // time stamp
         if ( filter.TimestampFilter!=null ) {
             // Dates come back as UTC so convert to local
@@ -72,20 +76,20 @@ public class Detections : DataSet {
         // sort columns
         if ( filter.SortDirection!=SortDirection.None) {
             if ( filter.Sort == DetectionColumn.Direction) {
-                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Direction) : q.OrderByDescending(m=>m.Direction);
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Direction).Asc : q.OrderBy(m=>m.Direction).Desc;
             } else if ( filter.Sort == DetectionColumn.SD) {
-                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.SD) : q.OrderByDescending(m=>m.SD);
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.SD).Asc : q.OrderBy(m=>m.SD).Desc;
             } else if ( filter.Sort == DetectionColumn.Speed) {
-                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Speed) : q.OrderByDescending(m=>m.Speed);
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.Speed).Asc : q.OrderBy(m=>m.Speed).Desc;
             } else if ( filter.Sort == DetectionColumn.Timestamp) {
-                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.DateTime) : q.OrderByDescending(m=>m.DateTime);
+                q = filter.SortDirection==SortDirection.Asc ? q.OrderBy(m=>m.DateTime).Asc : q.OrderBy(m=>m.DateTime).Desc;
             }
         }
         //
         // find total
-        var total = q.Count();
+        var total = q.RowCount();
         // get list of items
-        var data = q.Skip(filter.Skip).Take(filter.Take).ToList();
+        var data = q.Skip(filter.Skip).Take(filter.Take).List();
         // wrap in a paged object
         return new Paged<Detection>(data,total,filter.Skip,filter.Take);
     }
@@ -136,9 +140,12 @@ public enum SortDirection {
 }
 
 public class DetectionFilter {
+    public DetectionFilter() {
+        monitorName="";
+    }
     public int Skip {get; set;}
     public int Take {get; set;}
-
+    public string monitorName {get; set;}
     public ColumnFilter<DateTime>? TimestampFilter {get; set;}
     public ColumnFilter<float>? SpeedFilter {get; set;}
     public ColumnFilter<DetectionDirection>? DirectionFilter {get; set;}

@@ -52,7 +52,7 @@ export enum SortDirection {
 export interface DetectionFilter {
     skip: number,
     take: number,
-
+    monitorName: string,
     timestampFilter: ColumnFilter<string> | undefined
     speedFilter: ColumnFilter<number> | undefined
     directionFilter: ColumnFilter<DetectionDirection> | undefined
@@ -94,4 +94,9 @@ export interface MonitorConfigArea {
     upper_left_y:number,
     lower_right_x:number,
     lower_right_y:number
+}
+
+export interface MonitorInfo {
+    name:string,
+    isConnected:boolean
 }

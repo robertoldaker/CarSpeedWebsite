@@ -35,4 +35,8 @@ public class Detection {
     [Property(Type="BinaryBlob", Lazy=true)]
     public virtual byte[]? Image {get; set;}
 
+    [JsonIgnore()]
+    [ManyToOne(Column = "MonitorConfigId", Cascade = "none")]
+    public virtual MonitorConfig MonitorConfig {get; set;}
+
 }   

@@ -6,6 +6,7 @@ import { DataService } from 'src/app/data/data-service.service';
 import { ColData, ColDataFilterType, FilterTableHeaderComponent, SortChangeEvent, SortState, FilterChangeEvent, ColDataFilter, ColDataValueType } from 'src/app/shared/filter-table-header/filter-table-header.component';
 import { DetectionsService } from '../detections.service';
 import { SignalRService } from 'src/app/signal-r/signal-r.service';
+import { MonitorService } from 'src/app/monitor/monitor.service';
 
 @Component({
     selector: 'app-detections-table',
@@ -13,7 +14,7 @@ import { SignalRService } from 'src/app/signal-r/signal-r.service';
     styleUrls: ['./detections-table.component.css']
 })
 export class DetectionsTableComponent {
-    constructor(private dataService: DataService, private detectionsService: DetectionsService, private signalRService: SignalRService) {
+    constructor(private dataService: DataService, private detectionsService: DetectionsService, private signalRService: SignalRService, private monitorService: MonitorService) {
         this.colDataMap.set(DetectionColumn.Timestamp, new ColData(DetectionColumn.Timestamp, "Timestamp", ColDataFilterType.Date))
         this.colDataMap.set(DetectionColumn.Speed, new ColData(DetectionColumn.Speed, "Speed", ColDataFilterType.Numeric))
         this.colDataMap.set(DetectionColumn.Direction, new ColData(DetectionColumn.Direction, "Direction", ColDataFilterType.Menu,
@@ -24,11 +25,20 @@ export class DetectionsTableComponent {
         this.colDataMap.set(DetectionColumn.SD, new ColData(DetectionColumn.SD, "SD", ColDataFilterType.Numeric))
         this.displayedColumns = Array.from(this.colDataMap.values()).map(m => m.name)
         this.detections = []
-        this.loadData()
-        this.signalRService.hubConnection.on("NewDetectionLoaded", () => {
-            console.log('Load data!')
+        this.filter.monitorName = this.monitorService.selectedMonitorName
+        if (this.filter.monitorName) {
             this.loadData()
+        }
+        this.signalRService.hubConnection.on("NewDetectionLoaded", (data) => {
+            // reload data if its for the selected monitor
+            if ( data.monitorName===this.monitorService.selectedMonitorName) {
+                this.loadData()
+            }
         })
+        this.monitorService.SelectecMonitorChange.subscribe((data)=>{
+            this.filter.monitorName = data.name
+            this.loadData()
+        })       
     }
     @ViewChildren('filterHeader', { read: FilterTableHeaderComponent }) filterHeaders: QueryList<FilterTableHeaderComponent> | undefined
 
@@ -138,7 +148,6 @@ export class DetectionsTableComponent {
     getDateFilter(f: ColDataFilter): ColumnFilterImp<string> {
         function toJson(v: Date): string {
             let json = v.toJSON();
-            console.log(`date=[${json}]`);
             return json;
         }
         let filter
@@ -170,20 +179,23 @@ export class DetectionFilterImp implements DetectionFilter {
         this.take = pageSize
         this.sort = DetectionColumn.Timestamp
         this.sortDirection = SortDirection.Desc
+        this.monitorName = ''
     }
-    skip: number;
-    take: number;
-    timestampFilter: ColumnFilterImp<string> | undefined;
-    speedFilter: ColumnFilterImp<number> | undefined;
-    directionFilter: ColumnFilterImp<DetectionDirection> | undefined;
-    sdFilter: ColumnFilterImp<number> | undefined;
-    sort: DetectionColumn;
-    sortDirection: SortDirection;
+    skip: number
+    take: number
+    monitorName: string
+    timestampFilter: ColumnFilterImp<string> | undefined
+    speedFilter: ColumnFilterImp<number> | undefined
+    directionFilter: ColumnFilterImp<DetectionDirection> | undefined
+    sdFilter: ColumnFilterImp<number> | undefined
+    sort: DetectionColumn
+    sortDirection: SortDirection
 
     getHttpParams(): HttpParams {
         let p = new HttpParams();
         p = p.append("skip", this.skip)
         p = p.append("take", this.take)
+        p = p.append("monitorName",this.monitorName)
         if (this.timestampFilter) {
             let root = "timestampFilter."
             p = this.timestampFilter.addHttpParams(p, root)

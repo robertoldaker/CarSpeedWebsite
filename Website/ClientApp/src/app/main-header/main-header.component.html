@@ -7,5 +7,13 @@
     </span>
     <!-- main menu -->
     <div class="title">{{title}}</div>
+    <div class="monitorSelect">
+        <label style="margin-right: 0.5rem">Monitor</label>
+        <select class="monitorSelect" (change)="selectedMonitorChanged($event)">
+            <option *ngFor="let mi of monitorService.monitorInfo" [value]="mi.name" [selected]="mi.name===this.monitorService.selectedMonitorName" >
+            {{mi.name}}
+            </option>
+        </select>
+    </div>
     <span *ngIf="mode!='Production'" class="mode">! {{mode}} !</span>
 </div>

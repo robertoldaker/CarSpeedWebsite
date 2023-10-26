@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MonitorService } from '../monitor/monitor.service';
 
 @Component({
   selector: 'app-main-header',
@@ -7,10 +8,19 @@ import { Component } from '@angular/core';
 })
 export class MainHeaderComponent {
 
+    constructor(public monitorService: MonitorService) {
+        
+    }
+
     showAboutDialog() {
 
     }
 
     mode = 'Development'
     title = "Car Speed v1.0"
+
+    selectedMonitorChanged(e: any) {
+        let monitorName = e.target.value
+        this.monitorService.setSelectedMonitor(monitorName)
+    }
 }

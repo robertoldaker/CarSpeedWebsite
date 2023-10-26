@@ -17,4 +17,18 @@ span.mode {
       font-weight: bold;
       color:red;
 }
+
+div.monitorSelect {
+    color: white;
+    background: transparent;  
+    display: inline-block;
+    margin-left: 3rem;  
+}
+
+select.monitorSelect {
+    /*color: white;
+    background: transparent;
+    border: none;
+    */
+}
   

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ShowMessageService } from '../show-message/show-message.service';
-import { Detection, MonitorConfig, Paged, TrackingData } from './app.data';
+import { Detection, MonitorConfig, MonitorInfo, Paged, TrackingData } from './app.data';
 import { DetectionFilterImp } from '../detections/detections-table/detections-table.component';
 
 @Injectable({
@@ -41,28 +41,40 @@ export class DataService {
         });
     }
 
-    public StartMonitor() {
-        this.getBasicRequest("/Monitor/StartMonitor",()=>{});
+    public StartMonitor(monitorName: string) {
+        this.getBasicRequest(`/Monitor/StartMonitor?monitorName=${encodeURI(monitorName)}`,()=>{});
     }
 
-    public StopMonitor() {
-        this.getBasicRequest("/Monitor/StopMonitor",()=>{});
+    public StopMonitor(monitorName: string) {
+        this.getBasicRequest(`/Monitor/StopMonitor?monitorName=${encodeURI(monitorName)}`,()=>{});
     }
 
-    public ToggleDetection() {
-        this.getBasicRequest("/Monitor/ToggleDetection",()=>{});
+    public ToggleDetection(monitorName: string) {
+        this.getBasicRequest(`/Monitor/ToggleDetection?monitorName=${encodeURI(monitorName)}`,()=>{});
     }
 
-    public ResetTracking() {
-        this.getBasicRequest("/Monitor/ResetTracking",()=>{});
+    public ResetTracking(monitorName: string) {
+        this.getBasicRequest(`/Monitor/ResetTracking?monitorName=${encodeURI(monitorName)}`,()=>{});
     }
 
-    public GetMonitorConfig(onLoad: (resp: MonitorConfig)=>void) {
-        this.getRequest<MonitorConfig>("/Monitor/Config",onLoad);
+    public Shutdown(monitorName: string) {
+        this.getBasicRequest(`/Monitor/Shutdown?monitorName=${encodeURI(monitorName)}`,()=>{});
+    }
+
+    public Reboot(monitorName: string) {
+        this.getBasicRequest(`/Monitor/Reboot?monitorName=${encodeURI(monitorName)}`,()=>{});
+    }
+
+    public GetMonitorConfig(monitorName: string, onLoad: (resp: MonitorConfig)=>void) {
+        this.getRequest<MonitorConfig>(`/Monitor/Config?monitorName=${encodeURI(monitorName)}`,onLoad);
     }
 
     public PostMonitorConfig(config: MonitorConfig, onOK: (resp:string )=>void) {
         this.postRequestWithMessage<MonitorConfig>("Saving","/Monitor/EditConfig",config,onOK)
+    }
+
+    public GetMonitorInfo(onLoad: (resp:MonitorInfo[])=>void) {
+        this.getRequest<MonitorInfo[]>("/Monitor/MonitorInfo",onLoad);
     }
 
     /* shared */

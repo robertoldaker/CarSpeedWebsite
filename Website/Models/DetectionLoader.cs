@@ -10,7 +10,7 @@ public class DetectionLoader {
 
     }
 
-    public void Load(IFormFile file) {
+    public void Load(IFormFile file, out string? monitorName) {
         var regEx = new Regex(@"(\d+).jpg$");
         using( var da = new DataAccess() ) {
             using( var stream = file.OpenReadStream()) {
@@ -44,6 +44,7 @@ public class DetectionLoader {
                         loadTrackingImage(da,s,e.Length,td,index);
                     }
                 }
+                monitorName = d.MonitorConfig!=null ? d.MonitorConfig.name : null;
             }
             //
             da.CommitChanges();
@@ -88,6 +89,7 @@ public class DetectionResult {
     public DetectionDirection direction {get; set;}
     public float sd {get; set;}
     public bool inExitZone {get; set;}
+    public int configId {get; set;}
 
     public Detection createDetection(DataAccess da, out List<TrackingData> trackingData) {
         var d = new Detection();
@@ -108,6 +110,7 @@ public class DetectionResult {
             trackingData.Add(td);
             da.Detections.Add(td);
         }
+        d.MonitorConfig = da.Monitor.GetMonitorConfig(configId);
         da.Detections.Add(d);
         return d;
     }

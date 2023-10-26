@@ -67,47 +67,71 @@ public class MonitorPreview {
         }
     }
 
-    private MonitorState _state;
-    private byte[] _jpgImage;
-    private object _stateLock = new object();
-
-    private AutoResetEvent _imageAvailable = new AutoResetEvent(false);
-
-    public MonitorPreview() {
-        _state = new MonitorState();
-        _jpgImage = new byte[0];
+    private class StateInfo {
+        public StateInfo(MonitorState state, byte[] jpgImage) {
+            State = state;
+            JpgImage = jpgImage;
+            ImageAvailable = new AutoResetEvent(false);
+        }
+        public MonitorState State {get; set;}
+        public byte[] JpgImage {get; set;}
+        public AutoResetEvent ImageAvailable {get; private set;}
     }
 
-    public bool SetState(CarSpeedMonitorState state) {
+    private Dictionary<string,StateInfo> _stateDict = new Dictionary<string, StateInfo>();
+    private object _stateLock = new object();
+
+    private byte[] _emptyImage = new byte[0];
+
+    public MonitorPreview() {
+    }
+
+    public bool SetState(string monitorName, CarSpeedMonitorState state) {
         lock( _stateLock) {
-            bool stateUpdated = _state.Update(state);
-            _jpgImage = state.jpg;
-            _imageAvailable.Set();
+            bool stateUpdated;
+            if ( _stateDict.TryGetValue(monitorName,out StateInfo? stateInfo)) {
+                stateInfo.JpgImage = state.jpg;
+            } else {
+                var monitorState = new MonitorState();
+                stateInfo = new StateInfo(monitorState,state.jpg);
+                _stateDict.Add(monitorName, stateInfo);
+            }
+            stateUpdated = stateInfo.State.Update(state);
+            stateInfo.ImageAvailable.Set();
             return stateUpdated;
         }
     }
 
-    public MonitorState State {
-        get {
-            lock(_stateLock) {
-                return _state;
+    public MonitorState? GetState(string monitorName) {
+        lock(_stateLock) {
+            _stateDict.TryGetValue(monitorName, out StateInfo? stateInfo);
+            return stateInfo?.State;
+        }
+    }
+
+    public byte[] GetJpgImage(string monitorName) {
+        lock( _stateLock) {
+            if ( _stateDict.TryGetValue(monitorName, out StateInfo? stateInfo) ) {
+                return stateInfo.JpgImage;
+            } else {
+                return _emptyImage;
             }
         }
     }
 
-    public byte[] JpgImage {
-        get {
-            lock( _stateLock) {
-                return _jpgImage;
+    public async Task<byte[]> GetNextImageAsync(string monitorName) {
+
+        StateInfo? stateInfo=null;
+        await Task.Run( ()=> { 
+            if ( _stateDict.TryGetValue(monitorName, out stateInfo) ) {
+                stateInfo.ImageAvailable.WaitOne();
             }
+        });
+        if ( stateInfo!=null) {
+            return stateInfo.JpgImage;
+        } else {
+            return _emptyImage;
         }
-    }
-
-    public async Task<byte[]> GetNextImageAsync() {
-
-        await Task.Run( ()=> { _imageAvailable.WaitOne();});
-        return _jpgImage;
-
     }
 
 }

@@ -1,11 +1,11 @@
 <div class="blockContainer outer">
     <div class="title">Camera</div>
-    <div class="stateContainer">        
+    <div class="stateContainer">
         <div class="mainImage">
             <div [class]="{imageContainer: true, noImage: !imageAvailable}">
-                <img class="mainImage" [src]="imageSrc"/>
+                <img class="mainImage" [src]="imageSrc" />
             </div>
-        </div>    
+        </div>
         <div class="metadata">
             <div class="title">State</div>
             <table class="dataTable">
@@ -31,23 +31,42 @@
                 </tr>
             </table>
             <div style="margin-top: 1rem">
-                <button [disabled]="isRunning()" (click)="startMonitoring()" mat-mini-fab color="primary" aria-label="Prev tracking data">
+                <button [disabled]="isRunning() || !isConnected()" (click)="startMonitoring()" mat-mini-fab
+                    color="primary" aria-label="Prev tracking data">
                     <mat-icon>play_arrow</mat-icon>
                 </button>
-                <button style="margin-left: 0.5rem" [disabled]="!isRunning()" (click)="stopMonitoring()" mat-mini-fab color="primary" aria-label="Prev tracking data">
+                <button style="margin-left: 0.5rem" [disabled]="!isRunning()" (click)="stopMonitoring()" mat-mini-fab
+                    color="primary" aria-label="Prev tracking data">
                     <mat-icon>pause</mat-icon>
-                </button>                
+                </button>
+                <span style="float: right">
+                    <button [disabled]="!isConnected()" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More actions">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #moreMenu="matMenu" xPosition="before">
+                        <button mat-menu-item (click)="reboot()">
+                            <mat-icon>refresh</mat-icon>
+                            <span>Reboot</span>
+                        </button>
+                        <button mat-menu-item (click)="shutdown()">
+                            <mat-icon>power_settings_new</mat-icon>
+                            <span>Shutdown</span>
+                        </button>
+                    </mat-menu>
+                </span>
             </div>
             <div style="margin-top: 0.5rem">
                 <label>
                     Enable detection
-                    <input type="checkbox" [ngModel]="isDetecting" (change)="toggleDetection()"/>
+                    <input type="checkbox" [disabled]="!isRunning()" [ngModel]="isDetecting"
+                        (change)="toggleDetection()" />
                 </label>
+
             </div>
-        </div>    
+        </div>
     </div>
     <div class="logsContainer">
-        <div class="title">Logs</div>  
-        <div class="logs" #logDiv>{{logs}}</div>      
+        <div class="title">Logs</div>
+        <div class="logs" #logDiv>{{log}}</div>
     </div>
 </div>

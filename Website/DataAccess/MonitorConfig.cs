@@ -30,6 +30,13 @@ public class MonitorConfig {
     }
 
     /// <summary>
+    /// Name of monitor the config is associated with
+    /// </summary>
+    /// <value></value>
+    [Property()]
+    public virtual string name {get; set;}
+
+    /// <summary>
     /// Left to right distance in m
     /// </summary>
     /// <value></value>
