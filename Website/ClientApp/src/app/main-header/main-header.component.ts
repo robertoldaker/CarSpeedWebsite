@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MonitorService } from '../monitor/monitor.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { MonitorService } from '../monitor/monitor.service';
 })
 export class MainHeaderComponent {
 
-    constructor(public monitorService: MonitorService) {
+    constructor(public monitorService: MonitorService,@Inject('MODE') public mode: string) {
         
     }
 
@@ -16,7 +16,6 @@ export class MainHeaderComponent {
 
     }
 
-    mode = 'Development'
     title = "Car Speed v1.0"
 
     selectedMonitorChanged(e: any) {
