@@ -51,6 +51,9 @@ export class MonitorComponent {
                 this.scrollLogToBottom()
             }
         })
+
+        this.currentMonitorName = this.monitorService.selectedMonitorName
+        this.currentMonitorInfo = this.monitorService.selectedMonitor
     }
     
     @ViewChild('logDiv') logDiv: ElementRef | undefined;
@@ -155,10 +158,14 @@ export class MonitorComponent {
     }
 
     reboot() {
-
+        if ( this.currentMonitorName) {
+            this.dataService.Reboot(this.currentMonitorName);
+        }
     }
 
     shutdown() {
-
+        if ( this.currentMonitorName) {
+            this.dataService.Shutdown(this.currentMonitorName);
+        }
     }
 }

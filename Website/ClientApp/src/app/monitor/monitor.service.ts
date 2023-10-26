@@ -32,7 +32,7 @@ export class MonitorService {
         })
         signalRService.hubConnection.on("MonitorDisconnected", (data)=>{
             let monitorName = data.monitorName
-            let mi = this.monitorInfo.find(m=>m.name==monitorName)
+            let mi = this.monitorInfo.find(m=>m.name===monitorName)
             if (mi) {
                 mi.isConnected = false
             } else {
