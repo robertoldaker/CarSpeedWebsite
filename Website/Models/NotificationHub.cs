@@ -117,7 +117,12 @@ namespace CarSpeedWebsite.Models {
         public void RemoveMonitorConnection(string monitorName, string connectionId) {
             lock(_connectedMonitorsLock) {
                 if ( _connectedMonitorsDict.ContainsKey(monitorName)) {
-                    _connectedMonitorsDict[monitorName].Remove(connectionId);
+                    var connections = _connectedMonitorsDict[monitorName];
+                    connections.Remove(connectionId);
+                    // remove entry in dictionary if last connection remaining
+                    if ( connections.Count==0) {
+                        _connectedMonitorsDict.Remove(monitorName);
+                    }
                 }
                 if ( _connectionIdsDict.ContainsKey(connectionId)) {
                     _connectionIdsDict.Remove(connectionId);
