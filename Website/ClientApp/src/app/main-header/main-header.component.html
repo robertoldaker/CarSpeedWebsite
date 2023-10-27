@@ -1,12 +1,7 @@
-<div class="main-header">
-    <span style="float: right">
-        <!-- about -->
-        <button mat-icon-button aria-label="About" style="margin-right: 20px" title="about" (click)="showAboutDialog()">
-            <mat-icon>info_outline</mat-icon>
-        </button>
-    </span>
+<div class="mainHeader">
     <!-- main menu -->
     <div class="title">{{title}}</div>
+    <div *ngIf="mode!='Production'" class="mode">! {{mode}} !</div>
     <div class="monitorSelect">
         <label style="margin-right: 0.5rem">Monitor</label>
         <select class="monitorSelect" (change)="selectedMonitorChanged($event)">
@@ -15,5 +10,10 @@
             </option>
         </select>
     </div>
-    <span *ngIf="mode!='Production'" class="mode">! {{mode}} !</span>
+    <div class="itemRight">
+        <!-- about -->
+        <button mat-icon-button aria-label="About" style="margin-right: 20px" title="about" (click)="showAboutDialog()">
+            <mat-icon>info_outline</mat-icon>
+        </button>
+    </div>
 </div>

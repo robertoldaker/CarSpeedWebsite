@@ -11,49 +11,54 @@
         <div class="metadata">
             <table class="dataTable">
                 <tr>
-                    <td>Left to right distance (m)</td>
+                    <td>Left to right distance</td>
                     <td>
                         <input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="l2rDistance"/>
                     </td>
+                    <td>m</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <div class="error">{{getError('l2rDistance')}}</div>
                     </td>
                 </tr>
                 <tr>
-                    <td>Right to left distance (m)</td>
+                    <td>Right to left distance</td>
                     <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="r2lDistance"/></td>
+                    <td>m</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <div class="error">{{getError('r2lDistance')}}</div>
                     </td>
                 </tr>
                 <tr>
-                    <td>Min. speed save (mph)</td>
+                    <td>Min. speed save</td>
                     <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="minSpeedSave"/></td>
+                    <td>mph</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <div class="error">{{getError('minSpeedSave')}}</div>
                     </td>
                 </tr>
                 <tr>
-                    <td>Max. speed save (mph)</td>
+                    <td>Max. speed save</td>
                     <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="maxSpeedSave"/></td>
+                    <td>mph</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <div class="error">{{getError('maxSpeedSave')}}</div>
                     </td>
                 </tr>
                 <tr>
-                    <td>Camera field of view (deg)</td>
+                    <td>Camera field of view</td>
                     <td><input [disabled]="!canEdit" class="number" type="text" [(ngModel)]="fieldOfView"/></td>
+                    <td>deg</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <div class="error">{{getError('fieldOfView')}}</div>
                     </td>
                 </tr>

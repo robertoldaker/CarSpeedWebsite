@@ -1,18 +1,24 @@
-div.main-header {
+div.mainHeader {
     height: 50px;
     padding-left: 1rem;
     background-color: var(--primary-colour);
     color: white;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    grid-template-columns: 150px 490px auto auto;
+}
+
+div.itemRight {
+    justify-self:end;
 }
 
 div.title {
     display: inline-block; 
-    margin-top: 10px;
     font-weight: bold;
 }
   
-span.mode {
-      margin-left: 2em;
+div.mode {
       font-size: 20pt;
       font-weight: bold;
       color:red;
@@ -22,13 +28,9 @@ div.monitorSelect {
     color: white;
     background: transparent;  
     display: inline-block;
-    margin-left: 3rem;  
 }
 
 select.monitorSelect {
-    /*color: white;
-    background: transparent;
-    border: none;
-    */
+    padding: 5px;
 }
   

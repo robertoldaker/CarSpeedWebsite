@@ -33,8 +33,8 @@ export class ConfigComponent {
         if ( this.monitorService.selectedMonitorName ) {
             this.dataService.GetMonitorConfig(this.monitorService.selectedMonitorName, (data) => {
                 this.config=data
-                this.l2rDistance = data.l2r_distance.toFixed(1)
-                this.r2lDistance = data.r2l_distance.toFixed(1)
+                this.l2rDistance = data.l2r_distance.toFixed(2)
+                this.r2lDistance = data.r2l_distance.toFixed(2)
                 this.minSpeedSave = data.min_speed_save.toFixed(0)
                 this.maxSpeedSave = data.max_speed_save.toFixed(0)
                 this.fieldOfView = data.field_of_view.toFixed(0)
@@ -118,7 +118,7 @@ export class ConfigComponent {
         this.config.h_flip = this.horFlip
         this.config.v_flip = this.verFlip
         //
-        return this.errors.entries.length==0
+        return this.errors.size==0
     }
 
     errors:Map<string,string> = new Map()
@@ -154,6 +154,7 @@ export class ConfigComponent {
     }
 
     resetEditing() {
+        this.errors.clear()
         this.canEdit = false
         this.loadMonitorConfig()
         this.startPos={x: 0, y: 0}

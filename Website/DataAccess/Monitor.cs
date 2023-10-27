@@ -24,8 +24,8 @@ public class Monitor : DataSet {
             config = new MonitorConfig() 
             {
                 name=monitorName,
-                l2r_distance =  25,
-                r2l_distance =  17,
+                l2r_distance =  7.62f, // in m
+                r2l_distance =  5.18f, // in m
                 min_speed_save =  10,
                 max_speed_save =  80,
                 field_of_view =  75,
