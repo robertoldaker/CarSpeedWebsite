@@ -2,7 +2,7 @@
     <div class="paginator-container">
         <div id="title">Detections</div>
         <div>
-            <mat-paginator [length]="total" [pageSize]="pageSize"
+            <mat-paginator [length]="total" [pageSize]="pageSize" [pageIndex]="pageIndex"
             aria-label="Select page for car speed detections" [showFirstLastButtons]="true" [hidePageSize]="true" (page)="newPage($event)">
             </mat-paginator>    
         </div>

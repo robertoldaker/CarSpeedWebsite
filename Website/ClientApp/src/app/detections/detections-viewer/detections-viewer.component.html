@@ -38,10 +38,10 @@
                 <img class="mainImage" *ngIf="trackingData" [src]="trackingDataSrc"/>
             </div>
             <div class="trackingDataButtons">
-                <button (click)="prevTrackingData()" mat-mini-fab color="primary" aria-label="Prev tracking data">
+                <button (click)="prevTrackingData()" mat-mini-fab color="primary" aria-label="Prev tracking data" [disabled]="!canDoPrev">
                     <mat-icon>keyboard_arrow_left</mat-icon>
                 </button>
-                <button (click)="nextTrackingData()" mat-mini-fab color="primary" aria-label="Next tracking data" style="margin-left: 4rem">
+                <button (click)="nextTrackingData()" mat-mini-fab color="primary" aria-label="Next tracking data" style="margin-left: 4rem" [disabled]="!canDoNext">
                     <mat-icon>keyboard_arrow_right</mat-icon>
                 </button>
             </div>

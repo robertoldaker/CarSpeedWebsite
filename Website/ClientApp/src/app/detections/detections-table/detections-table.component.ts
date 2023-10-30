@@ -46,11 +46,13 @@ export class DetectionsTableComponent {
     displayedColumns: string[];
     detections: Detection[]
     total = 0
-    pageSize = 30
+    pageSize = 5
+    pageIndex = 0;
     filter: DetectionFilterImp = new DetectionFilterImp(this.pageSize)
 
     newPage(pageEvent: PageEvent) {
         this.filter.skip = pageEvent.pageIndex * this.pageSize;
+        this.pageIndex = pageEvent.pageIndex
         this.loadData()
     }
 
@@ -68,6 +70,8 @@ export class DetectionsTableComponent {
             this.filter.sortDirection = SortDirection.Desc
         }
         this.filter.sort = e.colId
+        this.filter.skip = 0
+        this.pageIndex = 0
         // turn off sorting of other columns
         if (this.filterHeaders) {
             this.filterHeaders.forEach(fh => {
@@ -91,6 +95,8 @@ export class DetectionsTableComponent {
 
     filterChanged(e: FilterChangeEvent) {
         let colData = this.colDataMap.get(e.colId);
+        this.filter.skip = 0
+        this.pageIndex = 0
         if (e.filter == null) {
             if (e.colId == DetectionColumn.Speed) {
                 this.filter.speedFilter = undefined;

@@ -31,27 +31,65 @@ export class DetectionsViewerComponent {
     index: number = 0
 
     nextTrackingData() {
-        if ( this.detectionsService.trackingData!=null ) {
-            this.index++;
-            if ( this.index>=this.detectionsService.trackingData.length) {
-                this.index=0;
-            }
-            //
-            this.trackingData = this.detectionsService.trackingData[this.index];
+        if ( this.detectionsService.selected?.direction == DetectionDirection.LEFT_TO_RIGHT) {
+            this.nextIndexTrackingData();
+        } else {
+            this.prevIndexTrackingData()
         }
     }
+
     prevTrackingData() {
+        if ( this.detectionsService.selected?.direction == DetectionDirection.LEFT_TO_RIGHT) {
+            this.prevIndexTrackingData();
+        } else {
+            this.nextIndexTrackingData()
+        }
+    }
+
+    nextIndexTrackingData() {
+        if ( this.detectionsService.trackingData!=null ) {
+            if ( this.index<this.detectionsService.trackingData.length-1) {
+                this.index++;
+                //
+                this.trackingData = this.detectionsService.trackingData[this.index];
+            }
+        }
+    }
+    prevIndexTrackingData() {
         if ( this.detectionsService.trackingData!=null ) {
             if ( this.index>=this.detectionsService.trackingData.length) {
                 this.index=this.detectionsService.trackingData.length-1;
             }
-            this.index--;
-            if ( this.index<0) {
-                this.index=this.detectionsService.trackingData.length-1;
+            if ( this.index>0) {
+                this.index--;
+                //
+                this.trackingData = this.detectionsService.trackingData[this.index];
             }
-            //
-            this.trackingData = this.detectionsService.trackingData[this.index];
         }
+    }
+
+    get canDoPrev():boolean {
+        if ( this.detectionsService.selected?.direction == DetectionDirection.LEFT_TO_RIGHT) {
+            return this.index>0
+        } else {
+            if ( this.detectionsService && this.detectionsService.trackingData) {
+                return this.index<this.detectionsService.trackingData.length-1
+            } else {
+                return false;
+            }
+        }
+    }
+
+    get canDoNext():boolean {
+        if ( this.detectionsService.selected?.direction == DetectionDirection.LEFT_TO_RIGHT) {
+            if ( this.detectionsService && this.detectionsService.trackingData) {
+                return this.index<this.detectionsService.trackingData.length-1
+            } else {
+                return false;
+            }
+        } else {
+            return this.index>0
+        }        
     }
 
     getItemNumber():string {
