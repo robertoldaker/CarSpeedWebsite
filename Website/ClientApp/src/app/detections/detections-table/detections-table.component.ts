@@ -46,7 +46,7 @@ export class DetectionsTableComponent {
     displayedColumns: string[];
     detections: Detection[]
     total = 0
-    pageSize = 5
+    pageSize = 30
     pageIndex = 0;
     filter: DetectionFilterImp = new DetectionFilterImp(this.pageSize)
 
