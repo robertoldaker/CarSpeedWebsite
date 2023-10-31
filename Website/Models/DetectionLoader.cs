@@ -84,7 +84,7 @@ public class DetectionResult {
     public DetectionResult() {
         tracking_data = new List<RawTrackingData>();
     }
-    public float posix_time {get; set;}
+    public double posix_time {get; set;}
     public float mean_speed {get; set;}
     public DetectionDirection direction {get; set;}
     public float sd {get; set;}

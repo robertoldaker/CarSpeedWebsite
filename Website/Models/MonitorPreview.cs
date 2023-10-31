@@ -10,7 +10,10 @@ public class CarSpeedMonitorState {
     public int avgContours {get; set;}
     public int lightLevel {get; set;}
     public float cpu {get; set;}
-    public byte[] jpg {get; set;}    
+    public byte[] jpg {get; set;}
+    public int exposureTime {get; set;} 
+    public float analogueGain {get; set;}
+    public List<float> cpus {get; set;}
 }
 
 public class MonitorState {
@@ -20,6 +23,9 @@ public class MonitorState {
     public int avgContours {get; set;}
     public int lightLevel {get; set;}
     public float cpu {get; set;}
+    public int exposureTime {get; set;}
+    public float analogueGain {get; set;}
+    public List<float> cpus {get; set;}
 
     public bool Update(CarSpeedMonitorState monitorState) {
         bool updated = false;
@@ -46,6 +52,25 @@ public class MonitorState {
         if ( cpu!=monitorState.cpu ) {
             cpu = monitorState.cpu;
             updated = true;
+        }
+        if ( Math.Abs(analogueGain -monitorState.analogueGain)>=0.01) {
+            analogueGain = monitorState.analogueGain;
+            updated = true;
+        }
+        if ( exposureTime!=monitorState.exposureTime) {
+            exposureTime = monitorState.exposureTime;
+            updated = true;
+        }
+        if ( cpus==null) {
+            cpus=monitorState.cpus;
+            updated=true;
+        } else {
+            for(int i=0;i<monitorState.cpus.Count;i++) {
+                if ( Math.Abs( cpus[i]-monitorState.cpus[i]) > 0.1) {
+                    cpus[i]=monitorState.cpus[i];
+                    updated=true;
+                }
+            }
         }
         return updated;
     }

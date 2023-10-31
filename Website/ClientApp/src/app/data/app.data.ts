@@ -75,7 +75,9 @@ export interface MonitorState {
     detectionEnabled: boolean
     avgContours: number
     lightLevel: number,
-    cpu: number
+    exposureTime: number,
+    analogueGain: number,
+    cpus: number[]
 }
 
 export interface MonitorConfig {

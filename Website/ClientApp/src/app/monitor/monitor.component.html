@@ -29,6 +29,18 @@
                     <td>Light level</td>
                     <td>{{lightLevel}}</td>
                 </tr>
+                <tr>
+                    <td>Exposure time</td>
+                    <td>{{exposureTime}}</td>
+                </tr>
+                <tr>
+                    <td>Analogue gain</td>
+                    <td>{{analogueGain}}</td>
+                </tr>
+                <tr>
+                    <td>CPUs</td>
+                    <td>{{cpus}}</td>
+                </tr>
             </table>
             <div style="margin-top: 1rem">
                 <button [disabled]="isRunning() || !isConnected()" (click)="startMonitoring()" mat-mini-fab

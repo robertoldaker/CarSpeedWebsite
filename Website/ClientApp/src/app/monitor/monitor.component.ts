@@ -98,7 +98,7 @@ export class MonitorComponent {
     }
 
     get frameRate(): string {
-        return this.monitorState ? this.monitorState.frameRate.toFixed(1) : '-'
+        return this.monitorState ? this.monitorState.frameRate.toFixed(1) + " fps" : '-'
     }
 
     get avgContours(): string {
@@ -109,8 +109,24 @@ export class MonitorComponent {
         return this.monitorState ? this.monitorState.lightLevel.toFixed(0) : '-'
     }
 
-    get cpu(): string {
-        return this.monitorState ? this.monitorState.cpu.toFixed(0) : '-'
+    get exposureTime(): string {
+        return this.monitorState ? (this.monitorState.exposureTime/1000000).toFixed(5) + " s" : '-'
+    }
+
+    get analogueGain(): string {
+        return this.monitorState ? (this.monitorState.analogueGain).toFixed(2): '-'
+    }
+
+    get cpus(): string {
+        if ( this.monitorState ) {
+            let cpuStr=''
+            this.monitorState.cpus.forEach(element => {
+                cpuStr+=element.toFixed(0) + " "
+            });
+            return cpuStr + " %"
+        } else {
+            return "-"
+        }
     }
 
     get imageAvailable(): boolean {
