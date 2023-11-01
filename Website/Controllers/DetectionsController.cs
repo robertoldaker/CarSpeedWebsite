@@ -104,4 +104,18 @@ public class DetectionsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Download detections as csv
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("DownloadAsCsv")]
+    public ActionResult DownloadAsCsv([FromQuery] DetectionFilter filter)
+    {
+         using( var da = new DataAccess()) {
+            var resp = da.Detections.GetFilteredAsCsv(filter);
+            return resp;
+        }
+    }
+
 }

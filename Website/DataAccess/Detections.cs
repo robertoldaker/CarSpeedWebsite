@@ -1,5 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 using HaloSoft.DataAccess;
+using Microsoft.AspNetCore.Mvc;
 using NHibernate.Criterion;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
@@ -115,6 +116,35 @@ public class Detections : DataSet {
     public byte[]? GetTrackingImage(int id) {
         var d = Session.Query<TrackingData>().Where(m=>m.Id==id).Select(m=>m.Image).FirstOrDefault();
         return d;
+    }
+
+    public FileStreamResult GetFilteredAsCsv(DetectionFilter filter)
+    {
+        var pagedDetections = GetFiltered(filter);
+        var total = pagedDetections.Total;
+        filter.Skip=0;
+        filter.Take = total;
+        var allDetections = GetFiltered(filter);
+
+
+        MemoryStream mms;
+        using (var ms = new MemoryStream())
+        {
+            using (var sw = new StreamWriter(ms, System.Text.Encoding.ASCII))
+            {
+                //
+                sw.WriteLine("\"Timestamp\",\"Speed\",\"Direction\",\"SD\"");
+                foreach( var d in allDetections.Data) {
+                    sw.WriteLine($"{d.DateTime:dd-MMM-yyy HH:mm:ss},\"{d.Speed:f1}\",\"{(int)d.Direction}\",\"{d.SD:f1}\"");
+                }
+                sw.Flush();
+                //
+                mms = new MemoryStream(ms.ToArray());
+            }
+        }
+        var fsr = new FileStreamResult(mms, "application/CSV");
+        fsr.FileDownloadName = "Detections.csv";
+        return fsr;
     }
 
 }

@@ -2,9 +2,20 @@
     <div class="paginator-container">
         <div id="title">Detections</div>
         <div>
-            <mat-paginator [length]="total" [pageSize]="pageSize" [pageIndex]="pageIndex"
+            <span style="float: right">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More actions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #moreMenu="matMenu" xPosition="before">
+                    <button mat-menu-item (click)="download()">
+                        <mat-icon>clouse_download</mat-icon>
+                        <span>Download as CSV</span>
+                    </button>
+                </mat-menu>
+            </span>
+            <mat-paginator style="white-space: nowrap;" [length]="total" [pageSize]="pageSize" [pageIndex]="pageIndex"
             aria-label="Select page for car speed detections" [showFirstLastButtons]="true" [hidePageSize]="true" (page)="newPage($event)">
-            </mat-paginator>    
+            </mat-paginator> 
         </div>
     </div>
     <div class="table-body-container">

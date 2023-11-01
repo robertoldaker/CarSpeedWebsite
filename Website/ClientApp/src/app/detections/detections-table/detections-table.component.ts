@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, Inject, QueryList, ViewChildren } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { HttpParams } from '@angular/common/http';
 import { DetectionColumn, DetectionDirection, Detection, SortDirection, FilterType, DetectionFilter, ColumnFilter } from 'src/app/data/app.data';
@@ -14,7 +14,11 @@ import { MonitorService } from 'src/app/monitor/monitor.service';
     styleUrls: ['./detections-table.component.css']
 })
 export class DetectionsTableComponent {
-    constructor(private dataService: DataService, private detectionsService: DetectionsService, private signalRService: SignalRService, private monitorService: MonitorService) {
+    constructor(private dataService: DataService, 
+        private detectionsService: DetectionsService, 
+        private signalRService: SignalRService, 
+        private monitorService: MonitorService,
+        @Inject('DATA_URL') private baseUrl: string) {
         this.colDataMap.set(DetectionColumn.Timestamp, new ColData(DetectionColumn.Timestamp, "Timestamp", ColDataFilterType.Date))
         this.colDataMap.set(DetectionColumn.Speed, new ColData(DetectionColumn.Speed, "Speed", ColDataFilterType.Numeric))
         this.colDataMap.set(DetectionColumn.Direction, new ColData(DetectionColumn.Direction, "Direction", ColDataFilterType.Menu,
@@ -173,6 +177,12 @@ export class DetectionsTableComponent {
 
     isSelected(d: Detection) {
         return this.detectionsService.isSelected(d)
+    }
+
+    download() {
+        let params=this.filter.getHttpParams()
+        let url = this.baseUrl + "/Detections/DownloadAsCsv?" + params.toString();
+        document.location.href = url
     }
 
     DetectionColumn = DetectionColumn
