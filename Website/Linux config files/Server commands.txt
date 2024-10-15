@@ -1,0 +1,85 @@
+#
+# Assumes you have a fresh installation of Ubuntu server
+#
+
+# Create user - logged on as root
+adduser rob
+# add to group sudo
+usermod -aG sudo rob
+
+#logout and re-login as "roberto"
+# prevent sudo from propting
+sudo visudo
+# then change  "%sudo ALL=(ALL) ALL" => "%sudo ALL=(ALL) NOPASSWD:ALL
+# create installs and websites folders
+mkdir installs
+mkdir websites
+mkdir websites/CarSpeedWebsite
+
+# set up locale to uk
+sudo localectl set-locale LANG=en_GB.utf8
+# if en_GB not installed then generate it with
+sudo locale-gen en_GB.utf8
+# timezone
+sudo timedatectl set-timezone Europe/London
+
+# install postgres
+sudo apt install postgresql postgresql-contrib
+# creates a super user
+sudo -u postgres createuser --superuser rob
+# change password
+sudo -u postgres psql
+ALTER USER rob WITH PASSWORD 'speedy';
+CREATE USER car_speed;
+ALTER USER car_speed PASSWORD '1234567890';
+CREATE DATABASE car_speed WITH OWNER = car_speed;
+\q
+#
+#
+# Should be able to connect to smart_energy_lab using beaverdb ...
+#
+
+# Install .net framework
+# (more info here https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu)
+sudo apt-get update;
+sudo apt-get install -y dotnet-sdk-6.0
+# should appear on list of runtime
+dotnet --list-runtimes
+
+#
+# install Nginx
+#
+# more info https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-2.1&tabs=aspnetcore2x
+sudo apt install nginx
+sudo nano /etc/nginx/sites-available/home.halo-software.co.uk                            # use one from "Server config files"
+sudo ln -s /etc/nginx/sites-available/home.halo-software.co.uk /etc/nginx/sites-enabled/ # add symbolic link 
+sudo rm /etc/nginx/sites-available/default                                               # remove default behaviour
+sudo nginx -t                                                                            # to test configuration
+sudo nginx -s reload                                                                     # to reload config
+
+
+#
+# GO BACK to  development machine
+#
+# use private key instead of password
+ssh-copy-id roberto@<ip address or hostname>
+
+#
+# sFtp autoInstall.sh,CarSpeedWebsite.service to home directory
+#
+
+#
+# Configure services with port to list on and urls to serve
+# and move to system location
+sudo mv CarSpeedMonitor.service /etc/systemd/system
+# enable service
+sudo systemctl enable CarSpeedMonitor.service
+
+# install unzip
+sudo apt install unzip
+
+# edit BuildAndPublishProduction.sh to point to new server then run it
+bash BuildAndPublish.sh
+
+
+
