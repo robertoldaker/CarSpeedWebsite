@@ -1,11 +1,17 @@
 <div class="blockContainer outer">
     <div class="chartData">
-        <div style="font-weight: bold">Chart data</div>
-        <select class="chartSelect" (change)="chartSelectChanged($event)">
-            <option *ngFor="let cs of chartSelections" [value]="cs.id" [selected]="cs.id == chartSelect" >
-            {{cs.name}}
-            </option>
-        </select>
+        <div>
+            <div style="font-weight: bold">Chart data</div>
+            <select class="chartSelect" (change)="chartSelectChanged($event)">
+                <option *ngFor="let cs of chartSelections" [value]="cs.id" [selected]="cs.id == chartSelect" >
+                {{cs.name}}
+                </option>
+            </select>    
+        </div>
+        <div style="text-align: right">
+            <div>Total detections: <b>{{totalDetections.toFixed(0)}}</b></div>
+            <div>% above 20mph: <b>{{percentAbove20.toFixed(0)}}</b></div>
+        </div>
     </div>
     <div echarts [options]="chartOptions" (chartInit)="onChartInit($event)"  class="demo-chart"></div>
 </div>

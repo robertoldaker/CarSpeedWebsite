@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { SignalRService } from '../signal-r/signal-r.service';
-import { MonitorService } from '../monitor/monitor.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -8,7 +7,9 @@ import { MonitorService } from '../monitor/monitor.service';
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-    constructor() {
-
+    constructor(private route: ActivatedRoute ) {
+        let access = this.route.snapshot.queryParams['access'] 
+        this.setupAccess = (access && access == 'setup')
     }
+    setupAccess = false;
 }

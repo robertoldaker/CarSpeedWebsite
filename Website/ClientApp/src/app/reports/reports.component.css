@@ -5,6 +5,8 @@ div.outer {
 
 div.chartData {
     font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .demo-chart {
