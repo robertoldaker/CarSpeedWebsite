@@ -31,6 +31,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// ECharts
+import { NgxEchartsModule } from 'ngx-echarts';
+
 // app components
 import { AppComponent } from './app.component';
 import { DetectionsTableComponent } from './detections/detections-table/detections-table.component';
@@ -105,7 +108,10 @@ import { ConfigComponent } from './config/config.component';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxEchartsModule.forRoot({
+        echarts: () => import('echarts')
+      })
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

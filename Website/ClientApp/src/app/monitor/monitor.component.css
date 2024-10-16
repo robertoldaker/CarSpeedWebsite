@@ -4,9 +4,12 @@ div.outer {
 }
 
 div.stateContainer {
-    display: grid;
+    /*display: grid;
     grid-auto-flow: column;
-    grid-template-columns: auto 250px;
+    grid-template-columns: auto 250px;*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 div.trackingData {
@@ -17,6 +20,11 @@ div.title {
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: #2C387D;
+}
+
+div.mainImage {
+    max-width: 490px;
+    padding-bottom: 1rem;
 }
 
 div.mainImage  img.mainImage {
@@ -34,7 +42,7 @@ div.imageContainer.noImage {
 }
 
 div.metadata {
-    padding-left: 1rem;
+    min-width: 260px;
 }
 
 table.dataTable td:nth-child(1) {

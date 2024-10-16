@@ -1,3 +1,5 @@
+import { HttpParams } from "@angular/common/http"
+
 /**
  * Data definitions
  */
@@ -101,4 +103,28 @@ export interface MonitorConfigArea {
 export interface MonitorInfo {
     name:string,
     isConnected:boolean
+}
+
+export interface DetectionGroups {
+    maxSd: number,
+    speedLimits: number[]
+}
+
+export class DetectionGroupsImp implements DetectionGroups {
+    constructor() {
+        this.maxSd = 3;
+        this.speedLimits = []
+    }
+    maxSd: number
+    speedLimits: number[]
+    getHttpParams(): HttpParams {
+        let p = new HttpParams();
+        p = p.append("maxSd", this.maxSd)        
+        let i=0;
+        for( let sl of this.speedLimits) {
+            p = p.append(`speedLimits[${i}]`, sl)
+            i++
+        }
+        return p
+    }
 }

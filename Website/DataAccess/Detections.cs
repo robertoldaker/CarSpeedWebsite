@@ -147,6 +147,32 @@ public class Detections : DataSet {
         return fsr;
     }
 
+    public List<int> GetGroupedDetectionData(DetectionGroups groups) {
+        var dd=new List<int>();
+        int? lowLimit = null;
+        int numDetections;
+        foreach( var upperLimit in groups.SpeedLimits) {
+            numDetections = getDetections(groups.MaxSd,lowLimit,upperLimit);
+            dd.Add(numDetections);
+            lowLimit = upperLimit;
+        }
+        numDetections = getDetections(groups.MaxSd,lowLimit,null);
+        dd.Add(numDetections);
+        return dd;
+    }
+
+    private int getDetections(double maxSd, int? lowLimit, int? upperLimit) {
+        var q = Session.QueryOver<Detection>().Where( m=>m.SD <= maxSd);        
+        if ( lowLimit!=null) {
+            q = q.Where(m=>m.Speed>=lowLimit);
+        }
+        if ( upperLimit!=null) {
+            q = q.Where(m=>m.Speed<upperLimit);
+        }
+        //
+        return q.RowCount();
+    }
+
 }
 
 public enum DetectionColumn {
@@ -205,4 +231,9 @@ public class Paged<T> {
     public int Skip {get; set;}
     public int Take {get; set;}
     public int Total {get; set;}
+}
+
+public class DetectionGroups {
+    public double MaxSd {get; set;}
+    public int[] SpeedLimits {get; set;}
 }

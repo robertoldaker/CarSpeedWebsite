@@ -1,0 +1,13 @@
+div.outer {
+    margin-top: 1rem;
+    max-width: 800px;
+}
+
+div.chartData {
+    font-size: 0.8rem;
+}
+
+.demo-chart {
+    height: 500px;
+    padding-top: 1rem;
+}

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ShowMessageService } from '../show-message/show-message.service';
-import { Detection, MonitorConfig, MonitorInfo, Paged, TrackingData } from './app.data';
+import { Detection, DetectionGroups, DetectionGroupsImp, MonitorConfig, MonitorInfo, Paged, TrackingData } from './app.data';
 import { DetectionFilterImp } from '../detections/detections-table/detections-table.component';
 
 @Injectable({
@@ -29,6 +29,13 @@ export class DataService {
             resp.data.forEach(d=>{
                 d.dateTime = new Date(d.dateTime)
             })
+            onLoad(resp)
+        });
+    }
+
+    public GetDetectionGroupData(groups: DetectionGroupsImp, onLoad: (resp: number[])=>void) {
+        let params = groups.getHttpParams()
+        this.getRequestWithParams<number[]>("/Detections/GroupedDetections",params,(resp)=>{
             onLoad(resp)
         });
     }

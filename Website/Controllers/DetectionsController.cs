@@ -112,8 +112,17 @@ public class DetectionsController : ControllerBase
     [Route("DownloadAsCsv")]
     public ActionResult DownloadAsCsv([FromQuery] DetectionFilter filter)
     {
-         using( var da = new DataAccess()) {
+        using( var da = new DataAccess()) {
             var resp = da.Detections.GetFilteredAsCsv(filter);
+            return resp;
+        }
+    }
+
+    [HttpGet]
+    [Route("GroupedDetections")]
+    public List<int> GetGroupedDetectionData( [FromQuery] DetectionGroups groups) {
+        using( var da = new DataAccess()) {
+            var resp = da.Detections.GetGroupedDetectionData(groups);
             return resp;
         }
     }
