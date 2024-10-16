@@ -173,6 +173,16 @@ public class Detections : DataSet {
         return q.RowCount();
     }
 
+    public int GetDetectionsLastHour() {
+        double maxSd = 3;
+        var hourAgo = DateTime.Now - new TimeSpan(1,0,0);
+
+        var q = Session.QueryOver<Detection>().Where( m=>m.SD <= maxSd);        
+        q = q.Where(m=>m.DateTime > hourAgo);
+        //
+        return q.RowCount();
+    }
+
 }
 
 public enum DetectionColumn {

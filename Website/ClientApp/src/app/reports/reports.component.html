@@ -10,7 +10,8 @@
         </div>
         <div style="text-align: right">
             <div>Total detections: <b>{{totalDetections.toFixed(0)}}</b></div>
-            <div>% above 20mph: <b>{{percentAbove20.toFixed(0)}}</b></div>
+            <div>Number last hour: <b>{{numberLastHour.toFixed(0)}}</b></div>
+            <div>% above 20mph: <b>{{percentAbove20.toFixed(0)}}%</b></div>
         </div>
     </div>
     <div echarts [options]="chartOptions" (chartInit)="onChartInit($event)"  class="demo-chart"></div>

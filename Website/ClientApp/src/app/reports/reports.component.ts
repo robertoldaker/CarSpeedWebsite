@@ -29,6 +29,7 @@ export class ReportsComponent {
     groupData:number[] = []
     totalDetections: number = 0
     percentAbove20:number = 0
+    numberLastHour: number = 0
     chartSelect: ChartSelect = ChartSelect.NUMBER_OF_DETECTIONS
     chartSelections: {id: number, name: string}[] = [{id: ChartSelect.PERCENT, name: 'Percent'},{id: ChartSelect.NUMBER_OF_DETECTIONS, name: 'Number of detections'}]
     chartInstance: any
@@ -84,6 +85,9 @@ export class ReportsComponent {
             let totalAbove20 = this.groupData[2] + this.groupData[3] + this.groupData[4] +this.groupData[5]
             this.percentAbove20 = (totalAbove20/this.totalDetections) * 100
             this.fillChartOptions()
+        })
+        this.dataService.GetNumberDetectionsLastHour((data)=>{
+            this.numberLastHour = data
         })
     }
 

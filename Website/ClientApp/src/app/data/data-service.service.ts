@@ -40,6 +40,12 @@ export class DataService {
         });
     }
 
+    public GetNumberDetectionsLastHour( onLoad: (resp: number)=>void) {
+        this.getRequest<number>("/Detections/NumberLastHour",(resp)=>{
+            onLoad(resp)
+        });
+    }
+
     public GetTrackingData(detectionId: number, onLoad: (resp: TrackingData[])=>void) {
         let p = new HttpParams();
         p=p.append("detectionId",detectionId)

@@ -127,4 +127,12 @@ public class DetectionsController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("NumberLastHour")]
+    public int GetDetectionLastHour() {
+        using( var da = new DataAccess()) {
+            var resp = da.Detections.GetDetectionsLastHour();
+            return resp;
+        }
+    }
 }

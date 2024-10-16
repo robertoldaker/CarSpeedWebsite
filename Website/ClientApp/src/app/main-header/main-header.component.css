@@ -1,12 +1,17 @@
 div.mainHeader {
     height: 50px;
-    padding-left: 1rem;
     background-color: var(--primary-colour);
     color: white;
     display: grid;
-    grid-auto-flow: column;
+}
+
+div.itemContainer {
+    padding-left: 1rem;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    grid-template-columns: 150px 490px auto auto;
+    max-width: 820px;
 }
 
 div.itemRight {

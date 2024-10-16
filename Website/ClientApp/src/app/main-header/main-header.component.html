@@ -1,19 +1,20 @@
 <div class="mainHeader">
     <!-- main menu -->
-    <div class="title">{{title}}</div>
-    <div *ngIf="mode!='Production'" class="mode">! {{mode}} !</div>
-    <div class="monitorSelect">
-        <label style="margin-right: 0.5rem">Monitor</label>
-        <select class="monitorSelect" (change)="selectedMonitorChanged($event)">
-            <option *ngFor="let mi of monitorService.monitorInfo" [value]="mi.name" [selected]="mi.name===this.monitorService.selectedMonitorName" >
-            {{mi.name}}
-            </option>
-        </select>
+    <div class="itemContainer">
+        <div class="title">{{title}}</div>
+        <div *ngIf="mode!='Production'" class="mode">! {{mode}} !</div>
+        <div class="monitorSelect">
+            <label style="margin-right: 0.5rem">Monitor</label>
+            <select class="monitorSelect" (change)="selectedMonitorChanged($event)">
+                <option *ngFor="let mi of monitorService.monitorInfo" [value]="mi.name" [selected]="mi.name===this.monitorService.selectedMonitorName" >
+                {{mi.name}}
+                </option>
+            </select>
+        </div>    
     </div>
-    <div class="itemRight">
-        <!-- about -->
+    <!--<div class="itemRight">
         <button mat-icon-button aria-label="About" style="margin-right: 20px" title="about" (click)="showAboutDialog()">
             <mat-icon>info_outline</mat-icon>
         </button>
-    </div>
+    </div>-->
 </div>
