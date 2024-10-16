@@ -16,7 +16,7 @@ export class MonitorComponent {
 
     constructor(signalRService: SignalRService,@Inject('DATA_URL') private baseUrl: string,private dataService: DataService, private monitorService: MonitorService) {
 
-        monitorService.SelectecMonitorChange.subscribe((data)=>{
+        monitorService.SelectedMonitorChange.subscribe((data)=>{
             this.currentMonitorInfo = data
             this.currentMonitorName = data.name;
             this.monitorState = this.monitorStates.get(data.name)

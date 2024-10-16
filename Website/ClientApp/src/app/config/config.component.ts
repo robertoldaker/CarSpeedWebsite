@@ -22,7 +22,7 @@ export class ConfigComponent {
             }
         })
 
-        this.monitorService.SelectecMonitorChange.subscribe((data)=>{
+        this.monitorService.SelectedMonitorChange.subscribe((data)=>{
             this.loadMonitorConfig()
         })
 

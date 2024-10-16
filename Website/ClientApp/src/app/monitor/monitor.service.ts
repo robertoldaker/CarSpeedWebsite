@@ -45,13 +45,13 @@ export class MonitorService {
     private _selectedMonitor: MonitorInfo | undefined
     setSelectedMonitor(monitorName:string) {
         this._selectedMonitor = this.monitorInfo.find(m=>m.name==monitorName)
-        this.SelectecMonitorChange.emit(this.selectedMonitor)
+        this.SelectedMonitorChange.emit(this.selectedMonitor)
     }
 
     set selectedMonitor(mi: MonitorInfo | undefined) {
         this._selectedMonitor = mi;
         if ( mi) {
-            this.SelectecMonitorChange.emit(this._selectedMonitor)    
+            this.SelectedMonitorChange.emit(this._selectedMonitor)    
         }
     }
     get selectedMonitor():MonitorInfo | undefined {
@@ -61,6 +61,6 @@ export class MonitorService {
     get selectedMonitorName(): string {
         return this._selectedMonitor ? this._selectedMonitor.name : ''
     }
-    SelectecMonitorChange: EventEmitter<MonitorInfo> = new EventEmitter<MonitorInfo>()
+    SelectedMonitorChange: EventEmitter<MonitorInfo> = new EventEmitter<MonitorInfo>()
 } 
 

@@ -30,7 +30,7 @@ export class ReportsComponent {
     totalDetections: number = 0
     percentAbove20:number = 0
     numberLastHour: number = 0
-    chartSelect: ChartSelect = ChartSelect.NUMBER_OF_DETECTIONS
+    chartSelect: ChartSelect = ChartSelect.PERCENT
     chartSelections: {id: number, name: string}[] = [{id: ChartSelect.PERCENT, name: 'Percent'},{id: ChartSelect.NUMBER_OF_DETECTIONS, name: 'Number of detections'}]
     chartInstance: any
     yAxis:any = {

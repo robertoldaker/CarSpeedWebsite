@@ -39,7 +39,7 @@ export class DetectionsTableComponent {
                 this.loadData()
             }
         })
-        this.monitorService.SelectecMonitorChange.subscribe((data)=>{
+        this.monitorService.SelectedMonitorChange.subscribe((data)=>{
             this.filter.monitorName = data.name
             this.loadData()
         })       
