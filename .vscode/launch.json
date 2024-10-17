@@ -19,7 +19,7 @@
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+https?://\\[::\\]:(\\d+)",
-                "uriFormat": "http://localhost:%s",
+                "uriFormat": "http://localhost:%s/?access=setup",
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

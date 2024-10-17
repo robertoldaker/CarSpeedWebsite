@@ -52,6 +52,7 @@ import { DetectionsViewerComponent } from './detections/detections-viewer/detect
 import { SignalRComponent } from './signal-r/signal-r.component';
 import { MonitorComponent } from './monitor/monitor.component';
 import { ConfigComponent } from './config/config.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { ConfigComponent } from './config/config.component';
     SignalRComponent,
     MonitorComponent,
     ConfigComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

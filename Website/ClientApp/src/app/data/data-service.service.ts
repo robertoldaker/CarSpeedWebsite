@@ -46,6 +46,10 @@ export class DataService {
         });
     }
 
+    public BackupDbLocally() {
+        window.location.href = `${this.baseUrl}/Detections/BackupDbLocally`
+    }
+
     public GetTrackingData(detectionId: number, onLoad: (resp: TrackingData[])=>void) {
         let p = new HttpParams();
         p=p.append("detectionId",detectionId)

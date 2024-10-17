@@ -135,4 +135,19 @@ public class DetectionsController : ControllerBase
             return resp;
         }
     }
+
+    /// <summary>
+    /// Backsup database to backup server
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("BackupDbLocally")]
+    public IActionResult BackupDbLocally() {
+        //_backupDbTask.Run();
+        var m = new DatabaseBackup();
+        var sr = m.BackupToStream(out string filename);
+        var fsr = new FileStreamResult(sr.BaseStream, "application/sql");
+        fsr.FileDownloadName = filename;
+        return fsr;        
+    }
 }
