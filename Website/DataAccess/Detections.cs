@@ -185,24 +185,38 @@ public class Detections : DataSet {
     }
 
     public string Purge() {
-        var now = DateTime.Now;
+        //var now = DateTime.Now;
         // Delete tracking data and images older than 7 days
-        var cutOff = now - new TimeSpan(7,0,0,0);
-        var detections = Session.QueryOver<Detection>().Where(m=>m.DateTime<cutOff && m.Image!=null).Take(1000).List();
-        //
-        var detectionsIds = detections.Select(m=>m.Id).ToArray();
-        //
-        foreach( var d in detections) {
-            d.Image = null;
+        //var cutOff = now - new TimeSpan(7,0,0,0);
+        //??var maxDetections = 20000;
+        var maxDetections = 6750;
+        var q = Session.QueryOver<Detection>().Where(m=>m.Image!=null);
+        var detectionCount = q.RowCount();
+        var imagesRemoved = 0;
+        var trackingDataDeleted = 0;
+        if ( detectionCount>maxDetections) {
+            var num = detectionCount - maxDetections;
+            var detections = q.OrderBy(m=>m.DateTime).Asc.Take(num).List();
+            //
+            var detectionsIds = detections.Select(m=>m.Id).ToArray();
+            //
+            foreach( var d in detections) {
+                d.Image = null;
+            }
+
+            var trackingData = Session.QueryOver<TrackingData>().Where( m=>m.Detection.Id.IsIn(detectionsIds)).List();
+            //
+            foreach( var td in trackingData) {
+                Session.Delete(td);
+            }
+            //
+            imagesRemoved = detections.Count;
+            trackingDataDeleted = trackingData.Count;
+
         }
 
-        var trackingData = Session.QueryOver<TrackingData>().Where( m=>m.Detection.Id.IsIn(detectionsIds)).List();
         //
-        foreach( var td in trackingData) {
-            Session.Delete(td);
-        }
-        //
-        return $"[{detections.Count}] images removed from detections, [{trackingData.Count}] track data deleted";
+        return $"[{imagesRemoved}] images removed from detections, [{trackingDataDeleted}] track data deleted";
     }
 
 }
