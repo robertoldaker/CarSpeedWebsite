@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ShowMessageService } from '../show-message/show-message.service';
-import { Detection, DetectionGroups, DetectionGroupsImp, MonitorConfig, MonitorInfo, Paged, TrackingData } from './app.data';
+import { DataModel, Detection, DetectionGroups, DetectionGroupsImp, MonitorConfig, MonitorInfo, Paged, TrackingData } from './app.data';
 import { DetectionFilterImp } from '../detections/detections-table/detections-table.component';
 
 @Injectable({
@@ -48,6 +48,20 @@ export class DataService {
 
     public BackupDbLocally() {
         window.location.href = `${this.baseUrl}/Detections/BackupDbLocally`
+    }
+
+    public Purge( onLoad: (resp: any)=>void) {
+        this.getBasicRequest("/Detections/Purge",(resp)=>{
+            onLoad(resp)
+        });
+    }
+
+    PerformCleanup(onComplete: (resp: any)=>void | undefined) {
+        this.getBasicRequest('/Detections/PerformCleanup', onComplete)
+    }
+
+    GetDataModel(onComplete: (resp: DataModel)=>void | undefined) {
+        this.getRequest<DataModel>('/Detections/DataModel',onComplete);
     }
 
     public GetTrackingData(detectionId: number, onLoad: (resp: TrackingData[])=>void) {

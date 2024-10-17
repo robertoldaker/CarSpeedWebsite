@@ -1,4 +1,25 @@
 div.outer {
     margin-top: 1rem;
-    width: 800px;
+    width: 1000px;
 }
+
+div.message {
+    margin-top: 1rem;
+    color: darkred;
+}
+
+div.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.size {
+    font-size: 0.8rem;
+    text-align: right;
+    justify-items: right;
+}
+
+div.toolbar > button {    
+    margin-right: 0.5rem;
+}
+

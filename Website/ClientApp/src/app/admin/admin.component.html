@@ -1,3 +1,29 @@
 <div class="blockContainer outer">
-    <button mat-raised-button color="primary" (click)="backupDbLocally()" style="margin-right: 0.5rem">Backup db locally</button>
+    <div class="header">
+        <div class="toolbar">
+            <button mat-raised-button color="primary" (click)="backupDbLocally()">
+                Backup database locally
+                <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" (click)="purge()" disabled="{{inPurge}}">            
+                <div *ngIf="inPurge" style="display: inline-block">
+                    <mat-spinner diameter="20"></mat-spinner>
+                </div>
+                <mat-icon *ngIf="!inPurge">build</mat-icon>
+                Perform data purge
+            </button>
+            <button mat-raised-button color="primary" (click)="cleanup()" disabled="{{inCleanup}}">            
+                <div *ngIf="inCleanup" style="display: inline-block">
+                    <mat-spinner diameter="20"></mat-spinner>
+                </div>
+                <mat-icon *ngIf="!inCleanup">build</mat-icon>
+                Perform cleanup
+            </button>
+        </div>
+        <div class="size">
+            <div>Database size: <b>{{model?.size}}</b></div>
+            <div *ngIf="model?.diskUsage?.found">Disk space: <b>{{model?.diskUsage?.used}} GB</b> used, <b>{{model?.diskUsage?.available}} GB</b> avail</div>
+        </div>
+    </div>
+    <div class="message">{{message}}</div>
 </div>

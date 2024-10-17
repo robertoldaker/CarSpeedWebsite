@@ -46,6 +46,8 @@ public class DetectionLoader {
                 }
                 monitorName = d.MonitorConfig!=null ? d.MonitorConfig.name : null;
             }
+            // Also get rid of any a week old
+            da.Detections.Purge();
             //
             da.CommitChanges();
         }

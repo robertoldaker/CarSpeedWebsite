@@ -1,5 +1,6 @@
 using CarSpeedWebsite.Data;
 using CarSpeedWebsite.Models;
+using HaloSoft.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -62,11 +63,15 @@ public class DetectionsController : ControllerBase
     public IActionResult GetMainImage([FromQuery] int id) {    
         using( var da = new DataAccess()) {
             var resp = da.Detections.GetMainImage(id);
-            this.Response.ContentType = "image/jpg";
-            MemoryStream ms = new MemoryStream(resp);
-            ms.Position = 0;
-            FileStreamResult fr = new FileStreamResult(ms, "image/jpg");
-            return fr;
+            if ( resp!=null && resp.Length>0 ) {
+                this.Response.ContentType = "image/jpg";
+                MemoryStream ms = new MemoryStream(resp);
+                ms.Position = 0;
+                FileStreamResult fr = new FileStreamResult(ms, "image/jpg");
+                return fr;
+            } else {
+                return this.Redirect("/NoImageAvailable.png");
+            }
         }
     }
 
@@ -143,11 +148,47 @@ public class DetectionsController : ControllerBase
     [HttpGet]
     [Route("BackupDbLocally")]
     public IActionResult BackupDbLocally() {
-        //_backupDbTask.Run();
         var m = new DatabaseBackup();
         var sr = m.BackupToStream(out string filename);
         var fsr = new FileStreamResult(sr.BaseStream, "application/sql");
         fsr.FileDownloadName = filename;
         return fsr;        
+    }
+
+    /// <summary>
+    /// Purges tracking data from results if older than 7 days
+    /// </summary>
+    /// <returns></returns> <summary>
+    [HttpGet]
+    [Route("Purge")]
+    public IActionResult Purge() {
+        string mess;
+        using ( var da = new DataAccess() ) {
+            mess=da.Detections.Purge();
+            da.CommitChanges();
+        }
+        return this.Ok(new {mess});
+    }
+
+    /// <summary>
+    /// Returns data about the current database usage
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("DataModel")]
+    public DataModel GetDataModel() {
+        var m = new DataModel();
+        m.Load();
+        return m;
+    }
+
+    /// <summary>
+    /// Performs a database cleanup operation to release diskspace (does a VACUUM FULL ANALYZE)
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("PerformCleanup")]
+    public void PerformCleanup() {
+        DataAccessBase.PerformCleanup();
     }
 }

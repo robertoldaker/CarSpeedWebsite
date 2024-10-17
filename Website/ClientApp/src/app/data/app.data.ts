@@ -128,3 +128,16 @@ export class DetectionGroupsImp implements DetectionGroups {
         return p
     }
 }
+
+export interface DataModel {
+    size: string;
+    diskUsage: DiskUsage;
+}
+
+export interface DiskUsage {
+    found: boolean
+    total: number
+    used: number
+    available: number    
+}
+

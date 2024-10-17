@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using HaloSoft.DataAccess;
 using Microsoft.AspNetCore.Mvc;
@@ -181,6 +182,27 @@ public class Detections : DataSet {
         q = q.Where(m=>m.DateTime > hourAgo);
         //
         return q.RowCount();
+    }
+
+    public string Purge() {
+        var now = DateTime.Now;
+        // Delete tracking data and images older than 7 days
+        var cutOff = now - new TimeSpan(7,0,0,0);
+        var detections = Session.QueryOver<Detection>().Where(m=>m.DateTime<cutOff && m.Image!=null).Take(1000).List();
+        //
+        var detectionsIds = detections.Select(m=>m.Id).ToArray();
+        //
+        foreach( var d in detections) {
+            d.Image = null;
+        }
+
+        var trackingData = Session.QueryOver<TrackingData>().Where( m=>m.Detection.Id.IsIn(detectionsIds)).List();
+        //
+        foreach( var td in trackingData) {
+            Session.Delete(td);
+        }
+        //
+        return $"[{detections.Count}] images removed from detections, [{trackingData.Count}] track data deleted";
     }
 
 }

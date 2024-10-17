@@ -38,13 +38,14 @@ div.paginator-container > div#title {
 
 tr.dataRow {
     cursor: pointer;
+    border-left: 2px solid transparent;
 }
 
 tr.dataRow:hover {
-    background: var(--selected-color);
+    border-left: 2px solid grey;
 }
 
 tr.dataRow.selected {
-    background: var(--selected-color);
+    border-left: 2px solid coral;
 }
 
