@@ -188,8 +188,7 @@ public class Detections : DataSet {
         //var now = DateTime.Now;
         // Delete tracking data and images older than 7 days
         //var cutOff = now - new TimeSpan(7,0,0,0);
-        //??var maxDetections = 20000;
-        var maxDetections = 6750;
+        var maxDetections = 20000;
         var q = Session.QueryOver<Detection>().Where(m=>m.Image!=null);
         var detectionCount = q.RowCount();
         var imagesRemoved = 0;
